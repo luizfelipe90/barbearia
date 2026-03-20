@@ -1,0 +1,505 @@
+[2026-03-19T19:46:57.554Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["debug@test.com"]
+[2026-03-19T19:46:57.559Z] [QUERY] Found 0 users
+[2026-03-19T19:46:57.653Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Debug","debug@test.com","$2b$10$PRZjO86hlGaieqNdV6xHF.ExZohRvB17em9au6OQpQ4kNCr9aUiTC"]
+[2026-03-19T19:46:57.657Z] [EXECUTE] User registered: 1773949617657 | Total: 1
+[2026-03-19T19:47:11.277Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["debug@test.com"]
+[2026-03-19T19:47:11.282Z] [QUERY] Found 1 users
+[2026-03-19T19:47:11.400Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:47:11.411Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:47:31.054Z] [QUERY] SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled" | Params: ["2026-03-19 14:00:00"]
+[2026-03-19T19:47:31.062Z] [QUERY] INSERT INTO appointments (user_id, service_id, appointment_date) VALUES (?, ?, ?) | Params: [1773949617657,1,"2026-03-19 14:00:00"]
+[2026-03-19T19:47:35.697Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949617657,"customer"]
+[2026-03-19T19:47:35.703Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949617657
+[2026-03-19T19:47:35.734Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949617657,"customer"]
+[2026-03-19T19:47:35.738Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949617657
+[2026-03-19T19:47:47.452Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:47:47.459Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:48:02.071Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["debug@test.com"]
+[2026-03-19T19:48:02.081Z] [QUERY] Found 1 users
+[2026-03-19T19:48:02.189Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:48:02.195Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:48:12.906Z] [QUERY] SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled" | Params: ["2026-03-19 19:00:00"]
+[2026-03-19T19:48:12.915Z] [QUERY] INSERT INTO appointments (user_id, service_id, appointment_date) VALUES (?, ?, ?) | Params: [1773949617657,1,"2026-03-19 19:00:00"]
+[2026-03-19T19:48:18.120Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949617657,"customer"]
+[2026-03-19T19:48:18.125Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949617657
+[2026-03-19T19:48:18.136Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949617657,"customer"]
+[2026-03-19T19:48:18.141Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949617657
+[2026-03-19T19:49:37.222Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["final@success.com"]
+[2026-03-19T19:49:37.229Z] [QUERY] Found 0 users
+[2026-03-19T19:49:37.291Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Definitive Test","final@success.com","$2b$10$s/TKAzE5GH.Aw4lXV.fEM.AYcI7fz5ppqLE8Ca4DMR1VCjbpj3rOi"]
+[2026-03-19T19:49:37.297Z] [EXECUTE] User registered: 1773949777297 | Total: 1
+[2026-03-19T19:49:50.699Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["final@success.com"]
+[2026-03-19T19:49:50.704Z] [QUERY] Found 1 users
+[2026-03-19T19:49:50.845Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:49:50.851Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:50:03.445Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:50:03.450Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949777297
+[2026-03-19T19:50:03.466Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:50:03.473Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 1773949777297
+[2026-03-19T19:50:13.984Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:50:13.992Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:50:25.772Z] [QUERY] SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled" | Params: ["2026-03-20 09:00:00"]
+[2026-03-19T19:50:25.778Z] [QUERY] INSERT INTO appointments (user_id, service_id, appointment_date) VALUES (?, ?, ?) | Params: [1773949777297,2,"2026-03-20 09:00:00"]
+[2026-03-19T19:50:25.789Z] [EXECUTE] INSERT INTO appointments (user_id, service_id, appointment_date) VALUES (?, ?, ?) | Params: [1773949777297,2,"2026-03-20 09:00:00"]
+[2026-03-19T19:50:25.798Z] [EXECUTE] Appointment created: 1773949825797 for user 1773949777297 | Total: 1
+[2026-03-19T19:50:37.908Z] [QUERY] SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled" | Params: ["2026-03-20 09:00:00"]
+[2026-03-19T19:51:16.190Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:51:16.194Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:51:16.200Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:16.206Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:16.214Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:51:16.217Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:51:16.219Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:16.222Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:20.897Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:51:20.900Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:51:20.902Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:20.905Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:20.910Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:51:20.913Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:51:20.916Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:51:20.918Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:52:37.494Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:52:37.503Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:52:53.389Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:52:53.393Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:52:53.398Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:52:53.405Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:52:53.414Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:52:53.417Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:52:53.420Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:52:53.425Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:13.447Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:13.452Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:22.371Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:55:22.378Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:55:22.385Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:22.391Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:22.397Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:55:22.400Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:55:22.403Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:22.406Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:26.424Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:26.429Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:49.344Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:49.352Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:55:57.678Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:55:57.686Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:55:57.694Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:57.701Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:57.711Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:55:57.714Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:55:57.717Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:55:57.720Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:56:38.455Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:56:38.464Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:56:41.189Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:56:41.196Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:56:41.211Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:56:41.225Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:56:41.242Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T19:56:41.248Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T19:56:41.251Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T19:56:41.258Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T19:56:46.095Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:56:46.105Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:59:36.572Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T19:59:36.576Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:00:28.703Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:28.716Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:28.727Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:28.741Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:28.752Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:28.757Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:28.764Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:28.770Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:31.147Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:00:31.152Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:00:37.381Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:37.385Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:37.393Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:37.399Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:37.413Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:37.418Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:37.422Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:37.426Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:45.834Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:45.839Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:45.842Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:45.845Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:45.856Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [1773949777297,"customer"]
+[2026-03-19T20:00:45.861Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 1773949777297
+[2026-03-19T20:00:45.867Z] [DEBUG] First appointment user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:45.873Z] [DEBUG] Looking for user_id: 1773949777297 (type: number)
+[2026-03-19T20:00:49.740Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:00:49.745Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:02:07.947Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:02:07.978Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:02:47.444Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:02:47.446Z] [QUERY] Found 1 users
+[2026-03-19T20:02:47.555Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:02:47.566Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:03:53.065Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["test@test.com"]
+[2026-03-19T20:03:53.069Z] [QUERY] Found 0 users
+[2026-03-19T20:03:53.135Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Test User","test@test.com","$2b$10$Lx8Qc.c0RGP8lES2qqywBebeUumKi66d7b3xGzI/KyEP4fZ4TDtMu"]
+[2026-03-19T20:03:53.138Z] [EXECUTE] User registered: 1773950633138 | Total: 2
+[2026-03-19T20:04:02.536Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:04:02.540Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:04:02.548Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:04:02.552Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:04:17.256Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:04:17.260Z] [QUERY] Found 1 users
+[2026-03-19T20:04:17.359Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:04:17.366Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:04:29.303Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:04:29.307Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:04:29.311Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:04:29.314Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:05:19.273Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["regular@user.com"]
+[2026-03-19T20:05:19.278Z] [QUERY] Found 0 users
+[2026-03-19T20:05:19.352Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Regular User","regular@user.com","$2b$10$iTPRzogSvaP5j3bi.ZH5yeIz.S8zMH7/a2fT4bCwIUj1OLocSx9M2"]
+[2026-03-19T20:05:19.355Z] [EXECUTE] User registered: 1773950719355 | Total: 3
+[2026-03-19T20:05:30.376Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["regular@user.com"]
+[2026-03-19T20:05:30.380Z] [QUERY] Found 1 users
+[2026-03-19T20:05:30.486Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:05:30.491Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:05:55.291Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:05:55.295Z] [QUERY] Found 1 users
+[2026-03-19T20:05:55.407Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:05:55.413Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:06:03.126Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:06:03.129Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:06:03.135Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:06:03.138Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:06:18.368Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:06:18.372Z] [QUERY] Found 1 users
+[2026-03-19T20:06:18.481Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:06:18.489Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:06:27.168Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:06:27.171Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:06:27.178Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:06:27.182Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:06:43.991Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["final@test.com"]
+[2026-03-19T20:06:43.996Z] [QUERY] Found 0 users
+[2026-03-19T20:06:44.084Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Final User","final@test.com","$2b$10$F.LHH7wpZr2sKv6B2edsaeFkKRWlhWCEr4aA4Z7DDG4GBgKS8eh7u"]
+[2026-03-19T20:06:44.092Z] [EXECUTE] User registered: 1773950804092 | Total: 4
+[2026-03-19T20:06:55.473Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["final@test.com"]
+[2026-03-19T20:06:55.476Z] [QUERY] Found 1 users
+[2026-03-19T20:06:55.588Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:06:55.595Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:08:35.796Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:08:35.800Z] [QUERY] Found 1 users
+[2026-03-19T20:08:35.895Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:08:35.910Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:09:16.155Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["user@user.com"]
+[2026-03-19T20:09:16.158Z] [QUERY] Found 0 users
+[2026-03-19T20:09:16.223Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["Regular User","user@user.com","$2b$10$TkzwIjOJuYCNmqAVWAXxb.athzdNkH4C9pg4wvxI/r0V2N6HwmraK"]
+[2026-03-19T20:09:16.226Z] [EXECUTE] User registered: 1773950956226 | Total: 5
+[2026-03-19T20:09:24.516Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["user@user.com"]
+[2026-03-19T20:09:24.520Z] [QUERY] Found 1 users
+[2026-03-19T20:09:24.614Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:09:24.619Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:10:14.658Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:10:14.662Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:10:22.309Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:10:22.316Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:11:44.172Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-19T20:11:44.175Z] [QUERY] Found 1 users
+[2026-03-19T20:11:44.295Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:11:44.308Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:11:47.707Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:11:47.711Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:11:47.721Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:11:47.726Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:11:55.674Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:11:55.676Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:11:55.683Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-19T20:11:55.685Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-19T20:11:59.794Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:11:59.800Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:12:01.050Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:12:01.054Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:27:54.353Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["vascaino@email.com"]
+[2026-03-19T20:27:54.358Z] [QUERY] Found 0 users
+[2026-03-19T20:27:54.455Z] [EXECUTE] INSERT INTO users (name, email, password) VALUES (?, ?, ?) | Params: ["hudson","vascaino@email.com","$2b$10$MarVMsIAh3xShLUZRriaXuxbtl63M3A65Pw4FIej6dXjh1InN64DC"]
+[2026-03-19T20:27:54.462Z] [EXECUTE] User registered: 1773952074462 | Total: 6
+[2026-03-19T20:28:03.207Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["vascaino@email.com"]
+[2026-03-19T20:28:03.209Z] [QUERY] Found 1 users
+[2026-03-19T20:28:03.294Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:28:03.298Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:29:44.327Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:29:44.334Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:29:54.781Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:29:54.789Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:36:06.691Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["vascaino@email.com"]
+[2026-03-19T20:36:06.695Z] [QUERY] Found 1 users
+[2026-03-19T20:36:06.800Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-19T20:36:06.808Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:02:57.976Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-20T17:02:57.986Z] [QUERY] Found 1 users
+[2026-03-20T17:02:58.118Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:02:58.128Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:03:17.155Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:03:17.164Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:11:49.291Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:11:49.298Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:12:59.104Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:12:59.111Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:14:16.473Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:14:16.483Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:18:51.732Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:18:51.740Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:19:40.773Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:19:40.781Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:30:25.896Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:30:25.901Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:33:08.643Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:33:08.650Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:33:21.890Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@admin.com"]
+[2026-03-20T17:33:21.892Z] [QUERY] Found 1 users
+[2026-03-20T17:33:21.991Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:33:21.998Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:33:24.361Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-20T17:33:24.367Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-20T17:33:24.379Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin'
+     | Params: [999,"admin"]
+[2026-03-20T17:33:24.383Z] [QUERY] Appointments total: 0 | Filtered: 0 for user 999
+[2026-03-20T17:36:43.971Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:36:43.974Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:38:08.039Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:38:08.041Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:43:12.833Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:43:12.845Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:58:11.186Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T17:58:11.192Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T18:08:10.244Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T18:08:10.249Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T19:53:10.242Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-20T19:53:10.254Z] [QUERY] SELECT * FROM services | Params: undefined

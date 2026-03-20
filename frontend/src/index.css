@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+:root {
+  --primary: #ffcc00; /* Tchesco Gold */
+  --primary-dark: #cc9900;
+  --secondary: #000000;
+  --accent: #ffffff;
+  --bg-dark: #000000;
+  --bg-card: #0a0a0a;
+  --wood: #1a1a1a; /* Replaced wood with dark modern feel */
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text-main: #ffffff;
+  --text-muted: #b0b0b0;
+  --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #fff 50%, #ffcc00 100%);
+  --barber-stripe: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 15px, #fff 15px, #fff 30px, #000 30px, #000 45px, #fff 45px, #fff 60px);
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .premium-font {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Premium Layout Helpers */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Page spacing to account for fixed navbar */
+.page-section {
+  padding-top: 120px !important;
+  min-height: calc(100vh - 80px);
+}
+
+.glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Premium Buttons */
+.premium-btn {
+  background: var(--primary);
+  color: #fff;
+  padding: 16px 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 4px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  border: 2px solid var(--primary);
+  cursor: pointer;
+}
+
+.premium-btn:hover {
+  background: transparent;
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(196, 30, 58, 0.3);
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--glass-border);
+  padding: 14px 28px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.secondary-btn:hover {
+  background: var(--glass);
+  border-color: var(--primary);
+}
+
+/* Hero Typography */
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.1; /* Increased to prevent character clipping */
+  font-weight: 800;
+  margin-bottom: 24px;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px 0; /* Added breathing room */
+}
+
+/* Form Elements */
+select option {
+  background: #1a1a1a;
+  color: white;
+  padding: 10px;
+}
+
+/* Animations */
+@keyframes reveal {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Card Effects */
+.service-card {
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card:hover {
+  transform: scale(1.02);
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gold-gradient);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.service-card:hover::after {
+  opacity: 1;
+}
+
+/* Form Styling */
+input, select {
+  width: 100%;
+  padding: 16px;
+  background: #111;
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  border-radius: 4px;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #181818;
+}
+
+/* Glass Navbar */
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  transition: var(--transition);
+}
+
+.nav-scrolled {
+  padding: 10px 0;
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+}
