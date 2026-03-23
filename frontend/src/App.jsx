@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Scheduling from './pages/Scheduling';
 import Store from './pages/Store';
 import Dashboard from './pages/Dashboard';
+import SubscriberBooking from './pages/SubscriberBooking';
+import Checkout from './pages/Checkout';
 import Navbar from './components/Navbar';
 import './index.css';
 
@@ -22,6 +24,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/scheduling" element={<Scheduling />} />
+        <Route path="/subscriber-booking" element={<SubscriberBooking />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/store" element={<Store />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

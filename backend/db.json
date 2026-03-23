@@ -2,32 +2,67 @@
   "users": [],
   "services": [
     {
-      "id": 1773945716205,
-      "name": "Corte Moderno",
-      "description": "Corte atualizado seguindo as tendências mundiais.",
-      "price": 60,
-      "duration": 45
+      "id": 1,
+      "category": "Barba",
+      "name": "Barba",
+      "description": "Tratamento completo para a sua barba.",
+      "price": 35,
+      "duration": 30,
+      "image": "/services/beard.png"
     },
     {
-      "id": 1773945716213,
-      "name": "Barba Imperial",
-      "description": "Tratamento completo com toalha quente e óleos essenciais.",
-      "price": 45,
-      "duration": 30
+      "id": 2,
+      "category": "Barba",
+      "name": "Bigode",
+      "description": "Aparo e alinhamento do bigode.",
+      "price": 15,
+      "duration": 15,
+      "image": "/services/beard.png"
     },
     {
-      "id": 1773945716223,
-      "name": "Combo Signature",
-      "description": "Corte + Barba + Sobrancelha. O tratamento de elite.",
-      "price": 95,
-      "duration": 80
+      "id": 3,
+      "category": "Combos",
+      "name": "Cabelo Barba e Graxa",
+      "description": "Corte, barba e alisamento (graxa).",
+      "price": 90,
+      "duration": 90,
+      "image": "/services/signature.png"
     },
     {
-      "id": 1773945716229,
-      "name": "Limpeza de Pele",
-      "description": "Remoção de impurezas e hidratação profunda.",
+      "id": 4,
+      "category": "Combos",
+      "name": "Cabelo e Barba",
+      "description": "Corte de cabelo e barba.",
       "price": 70,
-      "duration": 40
+      "duration": 60,
+      "image": "/services/signature.png"
+    },
+    {
+      "id": 5,
+      "category": "Cabelo",
+      "name": "Corte",
+      "description": "Corte de cabelo do seu estilo.",
+      "price": 35,
+      "duration": 40,
+      "image": "/services/fade.png"
+    },
+    {
+      "id": 6,
+      "category": "Tratamentos",
+      "name": "Graxa, alisamento",
+      "description": "Alisamento capilar (graxa).",
+      "price": 35,
+      "duration": 45,
+      "image": "/services/modern.png"
+    },
+    {
+      "id": 7,
+      "category": "Estética",
+      "name": "Sombrancelha",
+      "description": "Alinhamento da sobrancelha.",
+      "price": 15,
+      "duration": 15,
+      "image": "/services/classic.png"
     }
   ],
   "appointments": [],

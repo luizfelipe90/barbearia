@@ -46,9 +46,6 @@ const Home = () => {
             <Link to="/scheduling" className="premium-btn">
               Reservar Agora
             </Link>
-            <Link to="/store" className="secondary-btn">
-              Ver Produtos
-            </Link>
           </div>
         </div>
       </section>
@@ -56,17 +53,17 @@ const Home = () => {
       {/* Services Section */}
       <section className="container" style={{ padding: '120px 0' }}>
         <h2 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '60px' }}>Nossa <span style={{ color: 'var(--primary)' }}>Assinatura</span></h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px' }}>
+        <div className="home-services-grid">
           {[
-            { name: 'Corte Executive', price: 'R$ 75', desc: 'Consultoria de visagismo e acabamento manual ultra-preciso.' },
-            { name: 'Ritual da Barba', price: 'R$ 55', desc: 'Barbear clássico com toalha quente e massagem facial.' },
-            { name: 'Pacote Gold', price: 'R$ 120', desc: 'Corte + Barba + Lavagem Premium com massagem capilar.' }
+            { plan: 'basic', name: 'Assinatura Corte', price: 'R$ 60', desc: 'Corte 4 vezes ao mês.' },
+            { plan: 'premium', name: 'Assinatura Completa', price: 'R$ 110', desc: 'Corte e barba 4 vezes ao mês.' }
           ].map((s, i) => (
             <div key={i} className="glass-panel service-card" style={{ padding: '40px', textAlign: 'center' }}>
               <h3 style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '15px' }}>{s.name}</h3>
               <p style={{ color: 'var(--text-muted)', marginBottom: '30px', minHeight: '50px' }}>{s.desc}</p>
-              <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px' }}>
+              <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 800 }}>{s.price}</span>
+                <Link to={`/checkout?plan=${s.plan}`} className="premium-btn" style={{ width: '100%', padding: '12px' }}>Assinar Agora</Link>
               </div>
             </div>
           ))}

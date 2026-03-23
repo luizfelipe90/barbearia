@@ -3,10 +3,13 @@ import db from './config/db.js';
 const seedServices = async () => {
   try {
     const services = [
-      { name: 'Corte Moderno', description: 'Corte atualizado seguindo as tendências mundiais.', price: 60.00, duration: 45 },
-      { name: 'Barba Imperial', description: 'Tratamento completo com toalha quente e óleos essenciais.', price: 45.00, duration: 30 },
-      { name: 'Combo Signature', description: 'Corte + Barba + Sobrancelha. O tratamento de elite.', price: 95.00, duration: 80 },
-      { name: 'Limpeza de Pele', description: 'Remoção de impurezas e hidratação profunda.', price: 70.00, duration: 40 }     
+      { name: 'Barba', description: 'Tratamento completo para a sua barba.', price: 35.00, duration: 30 },
+      { name: 'Bigode', description: 'Aparo e alinhamento do bigode.', price: 15.00, duration: 15 },
+      { name: 'Cabelo Barba e Graxa', description: 'Corte, barba e alisamento (graxa).', price: 90.00, duration: 90 },
+      { name: 'Cabelo e Barba', description: 'Corte de cabelo e barba.', price: 70.00, duration: 60 },
+      { name: 'Corte', description: 'Corte de cabelo do seu estilo.', price: 35.00, duration: 40 },
+      { name: 'Graxa, alisamento', description: 'Alisamento capilar (graxa).', price: 35.00, duration: 45 },
+      { name: 'Sombrancelha', description: 'Alinhamento da sobrancelha.', price: 15.00, duration: 15 }
     ];
 
     for (const service of services) {

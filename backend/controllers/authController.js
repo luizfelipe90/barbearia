@@ -38,8 +38,19 @@ export const login = async (req, res) => {
 
     res.json({
       token,
-      user: { id: user.id, name: user.name, email: user.email, role: user.role }
+      user: { id: user.id, name: user.name, email: user.email, role: user.role, subscription: user.subscription }
     });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro no servidor', error: error.message });
+  }
+};
+
+export const subscribe = async (req, res) => {
+  const { plan } = req.body;
+  const userId = req.user.id;
+  try {
+    await db.execute('UPDATE users SET subscription = ? WHERE id = ?', [plan, userId]);
+    res.json({ message: 'Assinatura ativada com sucesso', subscription: plan });
   } catch (error) {
     res.status(500).json({ message: 'Erro no servidor', error: error.message });
   }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Calendar as CalendarIcon, Clock, CheckCircle } from '../components/Icons';
+import { Calendar as CalendarIcon, Clock, CheckCircle, Star } from '../components/Icons';
 
-const Scheduling = () => {
+const SubscriberBooking = () => {
   const [services, setServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [date, setDate] = useState(() => {
@@ -13,6 +13,12 @@ const Scheduling = () => {
   const [time, setTime] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) setUser(JSON.parse(savedUser));
+  }, []);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -26,13 +32,20 @@ const Scheduling = () => {
     fetchServices();
   }, []);
 
-  const categories = [...new Set(services.map(s => s.category || 'Outros'))];
+  const allowedCategories = user?.subscription === 'premium' 
+    ? ['Cabelo', 'Combos', 'Barba'] 
+    : user?.subscription === 'basic' 
+      ? ['Cabelo'] 
+      : [];
+
+  const filteredServices = services.filter(s => allowedCategories.includes(s.category));
+  const categories = [...new Set(filteredServices.map(s => s.category || 'Outros'))];
 
   const generateTimes = () => {
     const times = [];
     for (let h = 9; h <= 18; h++) {
       for (let m = 0; m < 60; m += 15) {
-        if (h === 18 && m > 0) break;
+        if (h === 18 && m > 0) break; // Limit to 18:00
         const hh = h.toString().padStart(2, '0');
         const mm = m.toString().padStart(2, '0');
         times.push(`${hh}:${mm}`);
@@ -55,10 +68,10 @@ const Scheduling = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    if (!selectedService || !date || !time) return alert('Preencha todos os campos');
+    if (!selectedService || !date || !time) return alert('Preencha a data e o horário selecionados');
 
     const token = localStorage.getItem('token');
-    if (!token) return alert('Você precisa estar logado para agendar');
+    if (!token) return alert('Sua assinatura não foi validada. (Faça login)');
 
     setLoading(true);
     try {
@@ -88,16 +101,23 @@ const Scheduling = () => {
     return (
       <div className="container fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
         <CheckCircle size={80} color="var(--primary)" />
-        <h2 style={{ marginTop: '20px' }}>Agendamento Confirmado!</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Enviamos os detalhes para o seu e-mail.</p>
-        <button className="premium-btn" style={{ marginTop: '30px' }} onClick={() => setSuccess(false)}>Novo Agendamento</button>
+        <h2 style={{ marginTop: '20px' }}>Agendamento VIP Confirmado!</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>Obrigado por ser nosso assinante, aguardamos você.</p>
+        <button className="premium-btn" onClick={() => { setSuccess(false); setTime(''); setDate(''); }}>Agendar Novo Horário</button>
       </div>
     );
   }
 
   return (
     <div className="container fade-in page-section" style={{ paddingBottom: '60px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '40px', fontSize: '2.5rem', fontFamily: 'Playfair Display' }}>Agende sua Visita</h2>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h2 style={{ fontSize: '2.5rem', fontFamily: 'Playfair Display', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+          <Star color="var(--primary)" size={32} />
+          Área do <span style={{ color: 'var(--primary)' }}>Assinante</span>
+          <Star color="var(--primary)" size={32} />
+        </h2>
+        <p style={{ color: 'var(--text-muted)' }}>Horários exclusivos de 15 em 15 minutos para quem faz parte do clube.</p>
+      </div>
       
       <div className="booking-grid">
         {/* Step 1: Select Service */}
@@ -112,7 +132,7 @@ const Scheduling = () => {
                 {cat.toUpperCase()}
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px' }}>
-                {services.filter(s => (s.category || 'Outros') === cat).map(s => (
+                {filteredServices.filter(s => (s.category || 'Outros') === cat).map(s => (
                   <div 
                     key={s.id} 
                     onClick={() => handleServiceSelect(s)}
@@ -133,8 +153,9 @@ const Scheduling = () => {
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>{s.name}</span>
-                        <span style={{ color: 'var(--primary)', fontWeight: 800 }}>R$ {s.price}</span>
+                         <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>{s.name}</span>
+                        {/* We hide the price since subscribers already paid */}
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', border: '1px solid var(--text-muted)', padding: '2px 6px', borderRadius: '4px' }}>Incluso</span>
                       </div>
                       <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.4' }}>{s.description}</p>
                     </div>
@@ -145,7 +166,7 @@ const Scheduling = () => {
           ))}
         </div>
 
-        {/* Step 2: Date & Time */}
+        {/* Step 2: Date & Modular Grid Time */}
         <div className="glass-card" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
           <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
             <Clock size={24} /> 2. Data e Horário
@@ -215,8 +236,8 @@ const Scheduling = () => {
               {!time && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>Selecione um horário na grade acima.</p>}
             </div>
             
-            <div style={{ marginTop: '10px', padding: '20px', background: 'rgba(196, 30, 58, 0.05)', borderRadius: '12px', borderLeft: '4px solid var(--primary)' }}>
-              <p style={{ fontSize: '0.75rem', letterSpacing: '1px', fontWeight: 600, color: 'var(--primary)' }}>RESUMO DO AGENDAMENTO</p>
+            <div style={{ padding: '20px', background: 'rgba(196, 30, 58, 0.05)', borderRadius: '12px', borderLeft: '4px solid var(--primary)' }}>
+              <p style={{ fontSize: '0.75rem', letterSpacing: '1px', fontWeight: 600, color: 'var(--primary)' }}>RESUMO DO SEU AGENDAMENTO</p>
               <div style={{ marginTop: '10px' }}>
                 <p style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: '5px' }}>
                   {selectedService ? selectedService.name : 'Selecione um serviço'}
@@ -226,16 +247,11 @@ const Scheduling = () => {
                     📅 {date.split('-').reverse().join('/')} às {time}
                   </p>
                 )}
-                {selectedService && (
-                  <p style={{ marginTop: '10px', fontWeight: 800, fontSize: '1.3rem', color: 'var(--primary)' }}>
-                    TOTAL: R$ {selectedService.price}
-                  </p>
-                )}
               </div>
             </div>
 
-            <button type="submit" className="premium-btn" disabled={loading} style={{ padding: '16px', fontSize: '1rem', letterSpacing: '2px' }}>
-              {loading ? 'PROCESSANDO...' : 'CONFIRMAR AGENDAMENTO'}
+            <button type="submit" className="premium-btn" disabled={loading} style={{ padding: '16px', fontSize: '1rem', letterSpacing: '2px', width: '100%', marginTop: '10px' }}>
+              {loading ? 'PROCESSANDO...' : 'CONFIRMAR VISITA'}
             </button>
           </form>
         </div>
@@ -244,4 +260,4 @@ const Scheduling = () => {
   );
 };
 
-export default Scheduling;
+export default SubscriberBooking;
