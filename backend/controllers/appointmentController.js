@@ -7,8 +7,8 @@ export const getAppointments = async (req, res) => {
       FROM appointments a
       JOIN services s ON a.service_id = s.id
       JOIN users u ON a.user_id = u.id
-      WHERE a.user_id = ? OR ? = 'admin'
-    `, [req.user.id, req.user.role]);
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+    `, [req.user.id, req.user.role, req.user.role]);
     res.json(appointments);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar agendamentos', error: error.message });
@@ -16,23 +16,29 @@ export const getAppointments = async (req, res) => {
 };
 
 export const createAppointment = async (req, res) => {
-  const { service_id, appointment_date } = req.body;
+  const { service_id, appointment_date, barber_id } = req.body;
   const user_id = req.user.id;
 
+  if (!barber_id) return res.status(400).json({ message: 'Por favor, selecione um barbeiro.' });
+
   try {
-    // Basic conflict check: same date and time
+    // Conflict check: same date, time AND barber
     const [conflicts] = await db.query(
       'SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled"',
       [appointment_date]
     );
 
-    if (conflicts.length > 0) {
-      return res.status(400).json({ message: 'Horário já reservado. Por favor, escolha outro.' });
+    // In a real DB we would filter by barber_id in SQL. In our mock, we can do it here or let db.query handle it if we updated it.
+    // Let's assume we want to prevent overlapping for the SAME barber.
+    const barberConflict = conflicts.find(c => c.barber_id == barber_id);
+
+    if (barberConflict) {
+      return res.status(400).json({ message: 'Este barbeiro já possui um agendamento neste horário.' });
     }
 
     const [result] = await db.query(
-      'INSERT INTO appointments (user_id, service_id, appointment_date) VALUES (?, ?, ?)',
-      [user_id, service_id, appointment_date]
+      'INSERT INTO appointments (user_id, service_id, appointment_date, barber_id) VALUES (?, ?, ?, ?)',
+      [user_id, service_id, appointment_date, barber_id]
     );
 
     res.status(201).json({ message: 'Agendamento realizado com sucesso', appointmentId: result.insertId });

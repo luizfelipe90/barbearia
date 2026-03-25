@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Calendar as CalendarIcon, Clock, CheckCircle } from '../components/Icons';
+import { Calendar as CalendarIcon, Clock, CheckCircle, User } from '../components/Icons';
 
 const Scheduling = () => {
   const [services, setServices] = useState([]);
+  const [barbers, setBarbers] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedBarber, setSelectedBarber] = useState(null);
   const [date, setDate] = useState(() => {
     const today = new Date();
     const tzOffset = today.getTimezoneOffset() * 60000;
@@ -15,15 +17,19 @@ const Scheduling = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/services');
-        setServices(res.data);
+        const [serviceRes, barberRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/services'),
+          axios.get('http://localhost:5000/api/auth/barbers')
+        ]);
+        setServices(serviceRes.data);
+        setBarbers(barberRes.data);
       } catch (err) {
-        console.error('Erro ao buscar serviços');
+        console.error('Erro ao buscar dados');
       }
     };
-    fetchServices();
+    fetchData();
   }, []);
 
   const categories = [...new Set(services.map(s => s.category || 'Outros'))];
@@ -55,7 +61,7 @@ const Scheduling = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    if (!selectedService || !date || !time) return alert('Preencha todos os campos');
+    if (!selectedService || !date || !time || !selectedBarber) return alert('Preencha todos os campos, incluindo o barbeiro');
 
     const token = localStorage.getItem('token');
     if (!token) return alert('Você precisa estar logado para agendar');
@@ -64,7 +70,7 @@ const Scheduling = () => {
     try {
       const appointment_date = `${date} ${time}:00`;
       await axios.post('http://localhost:5000/api/appointments', 
-        { service_id: selectedService.id, appointment_date },
+        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSuccess(true);
@@ -116,18 +122,15 @@ const Scheduling = () => {
                   <div 
                     key={s.id} 
                     onClick={() => handleServiceSelect(s)}
+                    className={`service-card ${selectedService?.id === s.id ? 'active' : ''}`}
                     style={{ 
                       display: 'flex',
                       gap: '15px',
                       padding: '12px', 
                       borderRadius: '10px', 
-                      cursor: 'pointer',
                       border: selectedService?.id === s.id ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.05)',
                       background: selectedService?.id === s.id ? 'rgba(196, 30, 58, 0.15)' : 'rgba(255,255,255,0.02)',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      transform: selectedService?.id === s.id ? 'scale(1.02)' : 'none'
-                    }}
-                  >
+                    }}>
                     <div style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
                       <img src={s.image || '/services/fade.png'} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
@@ -143,12 +146,39 @@ const Scheduling = () => {
               </div>
             </div>
           ))}
+
+          {/* New Step 3: Choose Barber */}
+          <div style={{ marginTop: '30px' }}>
+            <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
+              <User size={24} /> 2. Escolha o Barbeiro
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '15px' }}>
+              {barbers.map(barber => (
+                <div 
+                  key={barber.id}
+                  className={`glass-card service-card ${selectedBarber?.id === barber.id ? 'active' : ''}`}
+                  onClick={() => setSelectedBarber(barber)}
+                  style={{
+                    padding: '15px',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', overflow: 'hidden', margin: '0 auto 10px', border: '2px solid var(--primary)' }}>
+                    <img src={barber.image || '/services/imagem.jpg'} alt={barber.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>{barber.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Step 2: Date & Time */}
         <div className="glass-card" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
           <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
-            <Clock size={24} /> 2. Data e Horário
+            <Clock size={24} /> 3. Data e Horário
           </h3>
           <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
@@ -163,6 +193,7 @@ const Scheduling = () => {
                   return (
                     <div 
                       key={fulldate}
+                      className={`slot-item ${isSelected ? 'active' : ''}`}
                       onClick={() => setDate(fulldate)}
                       style={{
                         flex: '0 0 auto',
@@ -173,10 +204,8 @@ const Scheduling = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: '10px',
-                        cursor: 'pointer',
                         background: isSelected ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
                         border: isSelected ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
-                        transition: 'all 0.2s',
                         transform: isSelected ? 'scale(1.05)' : 'none'
                       }}
                     >
@@ -195,6 +224,7 @@ const Scheduling = () => {
                   <button
                     key={t}
                     type="button"
+                    className={`slot-item ${time === t ? 'active' : ''}`}
                     onClick={() => setTime(t)}
                     style={{
                       padding: '10px 0',
@@ -203,8 +233,6 @@ const Scheduling = () => {
                       background: time === t ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
                       color: time === t ? 'white' : 'var(--text-main)',
                       fontWeight: time === t ? 800 : 500,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
                       fontSize: '0.9rem'
                     }}
                   >

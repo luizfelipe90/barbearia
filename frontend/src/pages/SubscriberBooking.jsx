@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Calendar as CalendarIcon, Clock, CheckCircle, Star } from '../components/Icons';
+import { Calendar as CalendarIcon, Clock, CheckCircle, Star, User } from '../components/Icons';
 
 const SubscriberBooking = () => {
   const [services, setServices] = useState([]);
+  const [barbers, setBarbers] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedBarber, setSelectedBarber] = useState(null);
   const [date, setDate] = useState(() => {
     const today = new Date();
     const tzOffset = today.getTimezoneOffset() * 60000;
@@ -21,15 +23,19 @@ const SubscriberBooking = () => {
   }, []);
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/services');
-        setServices(res.data);
+        const [serviceRes, barberRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/services'),
+          axios.get('http://localhost:5000/api/auth/barbers')
+        ]);
+        setServices(serviceRes.data);
+        setBarbers(barberRes.data);
       } catch (err) {
-        console.error('Erro ao buscar serviços');
+        console.error('Erro ao buscar dados');
       }
     };
-    fetchServices();
+    fetchData();
   }, []);
 
   const allowedCategories = user?.subscription === 'premium' 
@@ -68,7 +74,7 @@ const SubscriberBooking = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    if (!selectedService || !date || !time) return alert('Preencha a data e o horário selecionados');
+    if (!selectedService || !date || !time || !selectedBarber) return alert('Preencha a data, horário e barbeiro selecionados');
 
     const token = localStorage.getItem('token');
     if (!token) return alert('Sua assinatura não foi validada. (Faça login)');
@@ -77,7 +83,7 @@ const SubscriberBooking = () => {
     try {
       const appointment_date = `${date} ${time}:00`;
       await axios.post('http://localhost:5000/api/appointments', 
-        { service_id: selectedService.id, appointment_date },
+        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSuccess(true);
@@ -103,7 +109,7 @@ const SubscriberBooking = () => {
         <CheckCircle size={80} color="var(--primary)" />
         <h2 style={{ marginTop: '20px' }}>Agendamento VIP Confirmado!</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>Obrigado por ser nosso assinante, aguardamos você.</p>
-        <button className="premium-btn" onClick={() => { setSuccess(false); setTime(''); setDate(''); }}>Agendar Novo Horário</button>
+        <button className="premium-btn" onClick={() => { setSuccess(false); setTime(''); setDate(''); setSelectedBarber(null); }}>Agendar Novo Horário</button>
       </div>
     );
   }
@@ -164,12 +170,40 @@ const SubscriberBooking = () => {
               </div>
             </div>
           ))}
+
+          {/* New Step 3: Choose Barber */}
+          <div style={{ marginTop: '30px' }}>
+            <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
+              <User size={24} /> 2. Escolha o Barbeiro
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '15px' }}>
+              {barbers.map(barber => (
+                <div 
+                  key={barber.id}
+                  className={`slot-item ${selectedBarber?.id === barber.id ? 'active' : ''}`}
+                  onClick={() => setSelectedBarber(barber)}
+                  style={{
+                    padding: '15px',
+                    borderRadius: '10px',
+                    textAlign: 'center',
+                    border: selectedBarber?.id === barber.id ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.05)',
+                    background: selectedBarber?.id === barber.id ? 'rgba(196, 30, 58, 0.15)' : 'rgba(255,255,255,0.02)',
+                  }}
+                >
+                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', overflow: 'hidden', margin: '0 auto 10px', border: '2px solid var(--primary)' }}>
+                    <img src={barber.image || '/services/imagem.jpg'} alt={barber.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>{barber.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Step 2: Date & Modular Grid Time */}
         <div className="glass-card" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
           <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
-            <Clock size={24} /> 2. Data e Horário
+            <Clock size={24} /> 3. Data e Horário
           </h3>
           <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
@@ -184,6 +218,7 @@ const SubscriberBooking = () => {
                   return (
                     <div 
                       key={fulldate}
+                      className={`slot-item ${isSelected ? 'active' : ''}`}
                       onClick={() => setDate(fulldate)}
                       style={{
                         flex: '0 0 auto',
@@ -194,10 +229,8 @@ const SubscriberBooking = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: '10px',
-                        cursor: 'pointer',
                         background: isSelected ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
                         border: isSelected ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
-                        transition: 'all 0.2s',
                         transform: isSelected ? 'scale(1.05)' : 'none'
                       }}
                     >
@@ -216,6 +249,7 @@ const SubscriberBooking = () => {
                   <button
                     key={t}
                     type="button"
+                    className={`slot-item ${time === t ? 'active' : ''}`}
                     onClick={() => setTime(t)}
                     style={{
                       padding: '10px 0',
@@ -224,8 +258,6 @@ const SubscriberBooking = () => {
                       background: time === t ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
                       color: time === t ? 'white' : 'var(--text-main)',
                       fontWeight: time === t ? 800 : 500,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
                       fontSize: '0.9rem'
                     }}
                   >

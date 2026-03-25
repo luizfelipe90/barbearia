@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ShieldCheck, Clock, Award } from '../components/Icons';
+import { Star, ShieldCheck, Clock, Award, TchescoLogo } from '../components/Icons';
 
 const Home = () => {
   return (
@@ -13,14 +13,14 @@ const Home = () => {
         justifyContent: 'center', 
         alignItems: 'center', 
         textAlign: 'center',
-        background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/imagem.jpg")',
-        backgroundSize: '33.33% auto',
-        backgroundRepeat: 'repeat-x',
-        backgroundPosition: 'center',
+        background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/services/imagem.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 20%',
         position: 'relative',
-        borderBottom: '8px solid var(--primary)'
+        borderBottom: '4px solid var(--primary)',
+        padding: '20px'
       }}>
-        <div className="container">
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <p style={{ color: 'var(--primary)', letterSpacing: '6px', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 800, fontSize: '0.9rem' }}>SINCE 2024</p>
           <h1 className="hero-title" style={{ 
             display: 'flex', 
@@ -32,20 +32,20 @@ const Home = () => {
             textTransform: 'uppercase',
             marginBottom: '30px'
           }}>
-            <span style={{ fontSize: '1.1em', fontWeight: 900, letterSpacing: '12px', textShadow: '0 0 20px rgba(255, 204, 0, 0.3)' }}>BARBERSHOP</span>
+            <span style={{ fontSize: '1.1em', fontWeight: 900, letterSpacing: '12px', textShadow: '2px 2px 10px rgba(0,0,0,1)' }}>BARBERSHOP</span>
             <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '600px', gap: '20px', marginTop: '-5px' }}>
               <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
               <span style={{ color: 'white', fontWeight: 400, fontSize: '0.35em', letterSpacing: '20px' }}>TCHESCO</span>
               <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
             </div>
           </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', maxWidth: '700px', margin: '0 auto 40px', fontWeight: 500, letterSpacing: '1px', opacity: 0.9 }}>
+          <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', maxWidth: '700px', margin: '0 auto 40px', fontWeight: 500, letterSpacing: '1px', opacity: 0.9, textShadow: '1px 1px 5px rgba(0,0,0,1)' }}>
             A excelência em barbearia clássica. Estilo, precisão e o visual que você merece.
           </p>
           <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-            <Link to="/scheduling" className="premium-btn">
-              Reservar Agora
-            </Link>
+            <Link to="/scheduling" className="premium-btn" style={{ marginTop: '40px', padding: '18px 45px' }}>
+            RESERVAR AGORA
+          </Link>
           </div>
         </div>
       </section>

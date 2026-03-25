@@ -12,7 +12,22 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20 || location.pathname !== '/') {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    handleScroll(); // Check immediately
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -33,7 +48,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="nav-fixed nav-scrolled" style={{ borderBottom: '4px solid transparent', borderImage: 'var(--barber-stripe) 1', padding: '15px 0' }}>
+    <nav className={`nav-fixed ${scrolled ? 'nav-scrolled' : 'nav-transparent'}`} style={{ borderBottom: scrolled ? '2px solid var(--primary)' : 'none', padding: scrolled ? '10px 0' : '20px 0', transition: 'all 0.4s ease' }}>
       <div className="container nav-container">
         
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '15px', textDecoration: 'none' }}>
@@ -53,24 +68,61 @@ const Navbar = () => {
         </div>
         
         <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1px' }}>INÍCIO</Link>
-          <Link to="/scheduling" style={{ textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1px' }}>AGENDAR</Link>
+          <Link 
+            to="/" 
+            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          >
+            INÍCIO
+          </Link>
+          <Link 
+            to="/scheduling" 
+            className={`nav-link ${location.pathname === '/scheduling' ? 'active' : ''}`}
+          >
+            AGENDAR
+          </Link>
+          
           {user?.subscription && (
-            <Link to="/subscriber-booking" style={{ textDecoration: 'none', color: 'var(--primary)', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1px' }}>ASSINANTES</Link>
+            <Link 
+              to="/subscriber-booking" 
+              className={`nav-link ${location.pathname === '/subscriber-booking' ? 'active' : ''}`}
+            >
+              ASSINANTES
+            </Link>
           )}
-          {user?.role === 'admin' && (
-            <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'var(--primary)', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1px' }}>
-              <Layout size={18} /> PAINEL ADM
+
+          {(user?.role === 'admin' || user?.role === 'barber') && (
+            <Link 
+              to="/dashboard" 
+              className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+            >
+              <Layout size={18} /> PAINEL {user.name.toUpperCase()}
             </Link>
           )}
 
           {user ? (
-            <button onClick={handleLogout} className="secondary-btn" style={{ padding: '10px 20px', fontSize: '0.8rem', border: '1px solid var(--primary)', color: 'var(--primary)', background: 'transparent' }}>
+            <button 
+              onClick={handleLogout} 
+              className="nav-link" 
+              style={{ 
+                padding: '8px 16px', 
+                border: '1px solid var(--primary)', 
+                background: 'transparent',
+                cursor: 'pointer'
+              }}
+            >
               <LogOut size={16} /> SAIR
             </button>
           ) : (
-            <Link to="/login" className="premium-btn" style={{ padding: '10px 24px', fontSize: '0.8rem' }}>
-              <LogIn size={16} /> Entrar
+            <Link 
+              to="/login" 
+              className="nav-link"
+              style={{ 
+                padding: '8px 16px', 
+                border: '1px solid var(--primary)',
+                background: 'transparent'
+              }}
+            >
+              <LogIn size={16} /> ENTRAR
             </Link>
           )}
         </div>

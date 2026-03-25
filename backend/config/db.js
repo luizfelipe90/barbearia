@@ -31,11 +31,12 @@ inMemoryDB.services.push(
 // Pre-seeding an admin user (Pass: 123)
 inMemoryDB.users.push({
   id: 999,
-  name: 'Administrador',
+  name: 'Marcos',
   email: 'adm@adm',
   password: '$2b$10$mhHTdiuE5dO0vTDoRnygE.pGly/EzX8yrcnEx5Ty6.x966U7ygnBG',
   role: 'admin',
-  subscription: 'premium'
+  subscription: 'premium',
+  image: '/services/imagem.jpg'
 });
 
 const db = {
@@ -54,15 +55,17 @@ const db = {
     }
     if (sql.includes('SELECT a.*')) {
       const filtered = inMemoryDB.appointments.filter(a => {
-        const matches = (a.user_id == params[0] || params[1] == 'admin');
-        return matches;
+        // If user is admin, show all. If user is barber, show those assigned to them (simulated).
+        // If user is customer, show their own.
+        if (params[1] === 'admin') return true;
+        if (params[1] === 'barber') return a.barber_id == params[0] || !a.barber_id; // Show unassigned or assigned to them
+        return a.user_id == params[0];
       });
-      log(`[QUERY] Appointments total: ${inMemoryDB.appointments.length} | Filtered: ${filtered.length} for user ${params[0]}`);
-      if (inMemoryDB.appointments.length > 0) {
-        log(`[DEBUG] First appointment user_id: ${inMemoryDB.appointments[0].user_id} (type: ${typeof inMemoryDB.appointments[0].user_id})`);
-        log(`[DEBUG] Looking for user_id: ${params[0]} (type: ${typeof params[0]})`);
-      }
+      log(`[QUERY] Appointments total: ${inMemoryDB.appointments.length} | Filtered: ${filtered.length} for user ${params[0]} (role: ${params[1]})`);
       return [filtered];
+    }
+    if (sql.includes('SELECT id, name FROM users') || sql.includes('SELECT id, name, image FROM users')) {
+      return [inMemoryDB.users.filter(u => u.role === 'barber' || u.role === 'admin').map(u => ({ id: u.id, name: u.name, image: u.image || '/services/imagem.jpg' }))];
     }
     if (sql.includes('SELECT * FROM products')) {
       return [inMemoryDB.products];
@@ -84,9 +87,11 @@ const db = {
       return [{ affectedRows: 0 }];
     }
     if (sql.includes('INSERT INTO users')) {
-      const newUser = { id: Date.now(), name: params[0], email: params[1], password: params[2], role: 'customer', subscription: null };
+      // Allow role from params if provided (params[3] would be role if we update authController)
+      const role = params[3] || 'customer';
+      const newUser = { id: Date.now(), name: params[0], email: params[1], password: params[2], role: role, subscription: null };
       inMemoryDB.users.push(newUser);
-      log(`[EXECUTE] User registered: ${newUser.id} | Total: ${inMemoryDB.users.length}`);
+      log(`[EXECUTE] User registered: ${newUser.id} | Role: ${role} | Total: ${inMemoryDB.users.length}`);
       return [{ insertId: newUser.id }];
     }
     if (sql.includes('INSERT INTO services')) {
@@ -95,13 +100,17 @@ const db = {
       return [{ insertId: s.id }];
     }
     if (sql.includes('INSERT INTO appointments')) {
+      const user = inMemoryDB.users.find(u => u.id == params[0]);
+      const appointmentDate = params[2];
       const a = { 
         id: Date.now(), 
         user_id: params[0], 
+        user_name: user ? user.name : 'Cliente',
         service_id: params[1], 
-        appointment_date: params[2], 
+        appointment_date: appointmentDate, 
         status: 'pending',
-        service_name: inMemoryDB.services.find(s => s.id == params[1])?.name || 'Serviço'
+        service_name: inMemoryDB.services.find(s => s.id == params[1])?.name || 'Serviço',
+        barber_id: params[3] || null // Optional barber_id
       };
       inMemoryDB.appointments.push(a);
       log(`[EXECUTE] Appointment created: ${a.id} for user ${a.user_id} | Total: ${inMemoryDB.appointments.length}`);

@@ -10,8 +10,8 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const [result] = await db.execute(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [name, email, hashedPassword]
+      'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+      [name, email, hashedPassword, req.body.role || 'customer']
     );
 
     res.status(201).json({ message: 'Usuário cadastrado com sucesso', userId: result.insertId });
@@ -53,5 +53,14 @@ export const subscribe = async (req, res) => {
     res.json({ message: 'Assinatura ativada com sucesso', subscription: plan });
   } catch (error) {
     res.status(500).json({ message: 'Erro no servidor', error: error.message });
+  }
+};
+
+export const getBarbers = async (req, res) => {
+  try {
+    const [barbers] = await db.query('SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin"');
+    res.json(barbers);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar barbeiros', error: error.message });
   }
 };
