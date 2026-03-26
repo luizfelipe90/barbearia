@@ -90,12 +90,19 @@ const Navbar = () => {
             </Link>
           )}
 
-          {(user?.role === 'admin' || user?.role === 'barber') && (
+          {(user?.role === 'admin' || user?.role === 'barber') ? (
             <Link 
               to="/dashboard" 
               className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
             >
               <Layout size={18} /> PAINEL {user.name.toUpperCase()}
+            </Link>
+          ) : user && (
+            <Link 
+              to="/dashboard" 
+              className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+            >
+              MEU PERFIL
             </Link>
           )}
 

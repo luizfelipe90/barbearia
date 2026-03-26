@@ -86,6 +86,15 @@ const db = {
       }
       return [{ affectedRows: 0 }];
     }
+    if (sql.includes('UPDATE appointments SET status = ? WHERE id = ?')) {
+      const app = inMemoryDB.appointments.find(a => a.id == params[1]);
+      if (app) {
+        app.status = params[0];
+        log(`[EXECUTE] Appointment ${app.id} status updated to ${app.status}`);
+        return [{ affectedRows: 1 }];
+      }
+      return [{ affectedRows: 0 }];
+    }
     if (sql.includes('INSERT INTO users')) {
       // Allow role from params if provided (params[3] would be role if we update authController)
       const role = params[3] || 'customer';
@@ -110,10 +119,11 @@ const db = {
         appointment_date: appointmentDate, 
         status: 'pending',
         service_name: inMemoryDB.services.find(s => s.id == params[1])?.name || 'Serviço',
-        barber_id: params[3] || null // Optional barber_id
+        barber_id: params[3] || null,
+        quiet_service: params[4] || false
       };
       inMemoryDB.appointments.push(a);
-      log(`[EXECUTE] Appointment created: ${a.id} for user ${a.user_id} | Total: ${inMemoryDB.appointments.length}`);
+      log(`[EXECUTE] Appointment created: ${a.id} for user ${a.user_id} | Total: ${inMemoryDB.appointments.length} | Quiet: ${a.quiet_service}`);
       return [{ insertId: a.id }];
     }
     return [{ insertId: 0 }];

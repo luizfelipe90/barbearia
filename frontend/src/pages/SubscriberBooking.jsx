@@ -16,6 +16,7 @@ const SubscriberBooking = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [user, setUser] = useState(null);
+  const [quietService, setQuietService] = useState(false);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -83,7 +84,7 @@ const SubscriberBooking = () => {
     try {
       const appointment_date = `${date} ${time}:00`;
       await axios.post('http://localhost:5000/api/appointments', 
-        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id },
+        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id, quiet_service: quietService },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSuccess(true);
@@ -279,6 +280,46 @@ const SubscriberBooking = () => {
                     📅 {date.split('-').reverse().join('/')} às {time}
                   </p>
                 )}
+              </div>
+            </div>
+
+            {/* Quiet Service Toggle */}
+            <div 
+              onClick={() => setQuietService(!quietService)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '15px',
+                background: quietService ? 'rgba(255, 204, 0, 0.1)' : 'rgba(255,255,255,0.02)',
+                borderRadius: '10px',
+                border: quietService ? '1px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+            >
+              <div>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: quietService ? 'var(--primary)' : 'white' }}>ATENDIMENTO SILENCIOSO</p>
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem conversas desnecessárias</p>
+              </div>
+              <div style={{
+                width: '44px',
+                height: '24px',
+                background: quietService ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                position: 'relative',
+                transition: 'all 0.3s'
+              }}>
+                <div style={{
+                  width: '18px',
+                  height: '18px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  top: '3px',
+                  left: quietService ? '23px' : '3px',
+                  transition: 'all 0.3s'
+                }} />
               </div>
             </div>
 

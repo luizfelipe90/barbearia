@@ -16,7 +16,7 @@ export const getAppointments = async (req, res) => {
 };
 
 export const createAppointment = async (req, res) => {
-  const { service_id, appointment_date, barber_id } = req.body;
+  const { service_id, appointment_date, barber_id, quiet_service } = req.body;
   const user_id = req.user.id;
 
   if (!barber_id) return res.status(400).json({ message: 'Por favor, selecione um barbeiro.' });
@@ -37,12 +37,32 @@ export const createAppointment = async (req, res) => {
     }
 
     const [result] = await db.query(
-      'INSERT INTO appointments (user_id, service_id, appointment_date, barber_id) VALUES (?, ?, ?, ?)',
-      [user_id, service_id, appointment_date, barber_id]
+      'INSERT INTO appointments (user_id, service_id, appointment_date, barber_id, quiet_service) VALUES (?, ?, ?, ?, ?)',
+      [user_id, service_id, appointment_date, barber_id, quiet_service || false]
     );
 
     res.status(201).json({ message: 'Agendamento realizado com sucesso', appointmentId: result.insertId });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao agendar', error: error.message });
+  }
+};
+
+export const cancelAppointment = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const userRole = req.user.role;
+
+  try {
+    // Check ownership if not admin/barber
+    if (userRole !== 'admin' && userRole !== 'barber') {
+      const [appointments] = await db.query('SELECT * FROM appointments WHERE id = ?', [id]);
+      if (appointments.length === 0) return res.status(404).json({ message: 'Agendamento não encontrado' });
+      if (appointments[0].user_id != userId) return res.status(403).json({ message: 'Você não tem permissão para cancelar este agendamento' });
+    }
+
+    await db.execute('UPDATE appointments SET status = ? WHERE id = ?', ['cancelled', id]);
+    res.json({ message: 'Agendamento cancelado com sucesso' });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao cancelar agendamento', error: error.message });
   }
 };

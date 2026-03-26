@@ -11,10 +11,10 @@ const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   useEffect(() => {
-    if (user.role !== 'admin' && user.role !== 'barber') return;
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       if (!token) return;
+      setLoading(true);
       try {
         const appRes = await axios.get('http://localhost:5000/api/appointments', { headers: { Authorization: `Bearer ${token}` } });
         setAppointments(appRes.data);
@@ -22,15 +22,29 @@ const Dashboard = () => {
         console.error('Erro ao buscar agendamentos');
       }
 
-      try {
-        const orderRes = await axios.get('http://localhost:5000/api/products/orders', { headers: { Authorization: `Bearer ${token}` } });
-        setOrders(orderRes.data);
-      } catch (err) {
-        console.error('Erro ao buscar pedidos');
+      if (user.role === 'admin') {
+        try {
+          const orderRes = await axios.get('http://localhost:5000/api/products/orders', { headers: { Authorization: `Bearer ${token}` } });
+          setOrders(orderRes.data);
+        } catch (err) {
+          console.error('Erro ao buscar pedidos');
+        }
       }
+      setLoading(false);
     };
     fetchData();
-  }, [user.role]);
+  }, [user.role, user.id]);
+
+  const handleCancelAppointment = async (id) => {
+    if (!window.confirm('Deseja realmente cancelar este agendamento?')) return;
+    const token = localStorage.getItem('token');
+    try {
+      await axios.put(`http://localhost:5000/api/appointments/${id}/cancel`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      setAppointments(appointments.map(a => a.id === id ? { ...a, status: 'cancelled' } : a));
+    } catch (err) {
+      alert(err.response?.data?.message || 'Erro ao cancelar');
+    }
+  };
 
   const handleRegisterBarber = async (e) => {
     e.preventDefault();
@@ -47,21 +61,23 @@ const Dashboard = () => {
     }
   };
 
-  if (user.role !== 'admin' && user.role !== 'barber') {
+  if (!user.id) {
     return (
       <div className="container page-section" style={{ textAlign: 'center', padding: '100px 0' }}>
         <h2 style={{ color: 'var(--primary)' }}>Acesso Restrito</h2>
-        <p style={{ marginTop: '20px' }}>Este painel é exclusivo para profissionais do Mustache Club.</p>
+        <p style={{ marginTop: '20px' }}>Você precisa estar logado para acessar seu perfil.</p>
       </div>
     );
   }
+
+  const isStaff = user.role === 'admin' || user.role === 'barber';
 
   return (
     <div className="container fade-in page-section" style={{ paddingBottom: '40px' }}>
       <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
         <div>
-          <h2 style={{ fontSize: '2.5rem' }}>Painel Barbeiro <span style={{ color: 'var(--primary)' }}>{user.name}</span></h2>
-          <p style={{ color: 'var(--text-muted)' }}>Monitoramento dos atendimentos e gestão da equipe.</p>
+          <h2 style={{ fontSize: '2.5rem' }}>{isStaff ? 'Painel' : 'Meu'} <span style={{ color: 'var(--primary)' }}>{isStaff ? 'Profissional' : 'Perfil'}</span></h2>
+          <p style={{ color: 'var(--text-muted)' }}>{isStaff ? `Bem-vindo de volta, ${user.name}.` : 'Gerencie seus agendamentos e histórico.'}</p>
         </div>
         {user.role === 'admin' && (
           <button className="premium-btn" onClick={() => setShowBarberModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -70,26 +86,45 @@ const Dashboard = () => {
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isStaff ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr', gap: '30px' }}>
         {/* Appointments History */}
-        <div className="glass-card">
+        <div className="glass-card" style={{ maxWidth: isStaff ? 'none' : '600px', margin: isStaff ? '0' : '0 auto' }}>
           <h3 style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Calendar size={20} color="var(--primary)" /> Meus Agendamentos
+            <Calendar size={20} color="var(--primary)" /> {isStaff ? 'Agenda Mustache' : 'Meus Agendamentos'}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             {appointments.length === 0 ? <p style={{ color: 'var(--text-muted)' }}>Nenhum agendamento encontrado.</p> : appointments.map(a => (
-              <div key={a.id} style={{ padding: '15px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', borderLeft: '4px solid var(--primary)' }}>
+              <div key={a.id} style={{ padding: '15px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', borderLeft: `4px solid ${a.status === 'cancelled' ? '#666' : 'var(--primary)'}`, opacity: a.status === 'cancelled' ? 0.6 : 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <div>
-                    <div style={{ fontWeight: 600 }}>{a.service_name}</div>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--text-main)', marginTop: '2px' }}>Cliente: <span style={{ color: 'var(--primary)' }}>{a.user_name}</span></div>
+                    <div style={{ fontWeight: 600, textDecoration: a.status === 'cancelled' ? 'line-through' : 'none' }}>{a.service_name}</div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--text-main)', marginTop: '2px' }}>{isStaff ? `Cliente: ${a.user_name}` : 'Horário confirmado'}</div>
                   </div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'right' }}>
                     {new Date(a.appointment_date).toLocaleDateString()}<br/>
                     {new Date(a.appointment_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
-                <div style={{ marginTop: '5px', fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 700 }}>{a.status}</div>
+                {a.quiet_service && (
+                  <div style={{ marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--text-muted)' }}>🔇 ATENDIMENTO SILENCIOSO</span>
+                  </div>
+                )}
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                   <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: a.status === 'cancelled' ? '#666' : 'var(--primary)', fontWeight: 700 }}>
+                    {a.status === 'cancelled' ? 'CANCELADO' : a.status}
+                  </div>
+                  
+                  {a.status !== 'cancelled' && (
+                    <button 
+                      onClick={() => handleCancelAppointment(a.id)}
+                      style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+                    >
+                      CANCELAR
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>

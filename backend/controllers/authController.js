@@ -9,12 +9,24 @@ export const register = async (req, res) => {
     if (existingUser.length > 0) return res.status(400).json({ message: 'E-mail já cadastrado' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const role = req.body.role || 'customer';
     const [result] = await db.execute(
       'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-      [name, email, hashedPassword, req.body.role || 'customer']
+      [name, email, hashedPassword, role]
     );
 
-    res.status(201).json({ message: 'Usuário cadastrado com sucesso', userId: result.insertId });
+    const userId = result.insertId;
+    const token = jwt.sign(
+      { id: userId, role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.status(201).json({ 
+      message: 'Usuário cadastrado com sucesso', 
+      token,
+      user: { id: userId, name, email, role, subscription: null }
+    });
   } catch (error) {
     res.status(500).json({ message: 'Erro no servidor', error: error.message });
   }

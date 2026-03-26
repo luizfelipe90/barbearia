@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Calendar as CalendarIcon, Clock, CheckCircle, User } from '../components/Icons';
+import { Calendar as CalendarIcon, Clock, CheckCircle, User, X, LogIn, UserPlus } from '../components/Icons';
 
 const Scheduling = () => {
   const [services, setServices] = useState([]);
@@ -15,6 +15,13 @@ const Scheduling = () => {
   const [time, setTime] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+  const [authName, setAuthName] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [quietService, setQuietService] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,13 +71,16 @@ const Scheduling = () => {
     if (!selectedService || !date || !time || !selectedBarber) return alert('Preencha todos os campos, incluindo o barbeiro');
 
     const token = localStorage.getItem('token');
-    if (!token) return alert('Você precisa estar logado para agendar');
+    if (!token) {
+      setShowAuthModal(true);
+      return;
+    }
 
     setLoading(true);
     try {
       const appointment_date = `${date} ${time}:00`;
       await axios.post('http://localhost:5000/api/appointments', 
-        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id },
+        { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id, quiet_service: quietService },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSuccess(true);
@@ -79,6 +89,40 @@ const Scheduling = () => {
       alert(err.response?.data?.message || 'Erro ao agendar');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthLoading(true);
+    try {
+      if (authMode === 'login') {
+        const res = await axios.post('http://localhost:5000/api/auth/login', { email: authEmail, password: authPassword });
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        setShowAuthModal(false);
+        // Automatically try to book after login
+        setTimeout(() => {
+          const fakeEvent = { preventDefault: () => {} };
+          handleBooking(fakeEvent);
+        }, 500);
+      } else {
+        const res = await axios.post('http://localhost:5000/api/auth/register', { name: authName, email: authEmail, password: authPassword });
+        // Auto Login after register
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        setShowAuthModal(false);
+        
+        // Wait a bit for state/storage and trigger booking
+        setTimeout(() => {
+          const fakeEvent = { preventDefault: () => {} };
+          handleBooking(fakeEvent);
+        }, 500);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Erro na autenticação');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -262,12 +306,124 @@ const Scheduling = () => {
               </div>
             </div>
 
+            {/* Quiet Service Toggle */}
+            <div 
+              onClick={() => setQuietService(!quietService)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '15px',
+                background: quietService ? 'rgba(255, 204, 0, 0.1)' : 'rgba(255,255,255,0.02)',
+                borderRadius: '10px',
+                border: quietService ? '1px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+            >
+              <div>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: quietService ? 'var(--primary)' : 'white' }}>ATENDIMENTO SILENCIOSO</p>
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sem conversas desnecessárias</p>
+              </div>
+              <div style={{
+                width: '44px',
+                height: '24px',
+                background: quietService ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                position: 'relative',
+                transition: 'all 0.3s'
+              }}>
+                <div style={{
+                  width: '18px',
+                  height: '18px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  top: '3px',
+                  left: quietService ? '23px' : '3px',
+                  transition: 'all 0.3s'
+                }} />
+              </div>
+            </div>
+
             <button type="submit" className="premium-btn" disabled={loading} style={{ padding: '16px', fontSize: '1rem', letterSpacing: '2px' }}>
               {loading ? 'PROCESSANDO...' : 'CONFIRMAR AGENDAMENTO'}
             </button>
           </form>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+          <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()} style={{ padding: '0', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', padding: '40px 30px' }}>
+              <button 
+                onClick={() => setShowAuthModal(false)}
+                style={{ position: 'absolute', top: '20px', right: '20px', background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+              >
+                <X size={24} />
+              </button>
+
+              <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                <div style={{ width: '60px', height: '60px', background: 'rgba(255, 204, 0, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px' }}>
+                  {authMode === 'login' ? <LogIn color="var(--primary)" size={30} /> : <UserPlus color="var(--primary)" size={30} />}
+                </div>
+                <h3 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>
+                  {authMode === 'login' ? 'BEM-VINDO DE VOLTA' : 'CRIE SUA CONTA'}
+                </h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '5px' }}>
+                  {authMode === 'login' ? 'Acesse sua conta para finalizar o agendamento' : 'Cadastre-se rapidinho para reservar seu horário'}
+                </p>
+              </div>
+
+              <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                {authMode === 'register' && (
+                  <input 
+                    type="text" 
+                    placeholder="Nome Completo" 
+                    required 
+                    value={authName}
+                    onChange={(e) => setAuthName(e.target.value)}
+                    style={{ padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }}
+                  />
+                )}
+                <input 
+                  type="email" 
+                  placeholder="Seu E-mail" 
+                  required 
+                  value={authEmail}
+                  onChange={(e) => setAuthEmail(e.target.value)}
+                  style={{ padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }}
+                />
+                <input 
+                  type="password" 
+                  placeholder="Sua Senha" 
+                  required 
+                  value={authPassword}
+                  onChange={(e) => setAuthPassword(e.target.value)}
+                  style={{ padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }}
+                />
+                <button type="submit" className="premium-btn" disabled={authLoading} style={{ marginTop: '10px', width: '100%', justifyContent: 'center' }}>
+                  {authLoading ? 'PROCESSANDO...' : authMode === 'login' ? 'ENTRAR E AGENDAR' : 'CADASTRAR CONTA'}
+                </button>
+              </form>
+
+              <div style={{ textAlign: 'center', marginTop: '25px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                  {authMode === 'login' ? 'Ainda não tem conta?' : 'Já possui uma conta?'}
+                  <button 
+                    onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--primary)', fontWeight: 700, marginLeft: '8px', cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    {authMode === 'login' ? 'Cadastre-se' : 'Faça Login'}
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
