@@ -70,6 +70,10 @@ const db = {
     if (sql.includes('SELECT * FROM products')) {
       return [inMemoryDB.products];
     }
+    if (sql.includes('SELECT * FROM appointments WHERE id = ?')) {
+      const match = inMemoryDB.appointments.filter(a => a.id == params[0]);
+      return [match];
+    }
     if (sql.includes('SELECT * FROM appointments WHERE appointment_date = ?')) {
       return [inMemoryDB.appointments.filter(a => a.appointment_date == params[0] && a.status != 'cancelled')];
     }
@@ -125,6 +129,12 @@ const db = {
       inMemoryDB.appointments.push(a);
       log(`[EXECUTE] Appointment created: ${a.id} for user ${a.user_id} | Total: ${inMemoryDB.appointments.length} | Quiet: ${a.quiet_service}`);
       return [{ insertId: a.id }];
+    }
+    if (sql.includes('DELETE FROM appointments WHERE id = ?')) {
+      const initialLength = inMemoryDB.appointments.length;
+      inMemoryDB.appointments = inMemoryDB.appointments.filter(a => a.id != params[0]);
+      log(`[EXECUTE] Appointment deleted: ${params[0]} | Affected: ${initialLength - inMemoryDB.appointments.length}`);
+      return [{ affectedRows: initialLength - inMemoryDB.appointments.length }];
     }
     return [{ insertId: 0 }];
   },

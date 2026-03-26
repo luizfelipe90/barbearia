@@ -66,3 +66,23 @@ export const cancelAppointment = async (req, res) => {
     res.status(500).json({ message: 'Erro ao cancelar agendamento', error: error.message });
   }
 };
+
+export const deleteAppointment = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const userRole = req.user.role;
+
+  try {
+    // Staff can delete anything. Customers can only delete their own.
+    if (userRole !== 'admin' && userRole !== 'barber') {
+      const [appointments] = await db.query('SELECT * FROM appointments WHERE id = ?', [id]);
+      if (appointments.length === 0) return res.status(404).json({ message: 'Agendamento não encontrado' });
+      if (appointments[0].user_id != userId) return res.status(403).json({ message: 'Você não tem permissão para excluir este agendamento' });
+    }
+
+    await db.execute('DELETE FROM appointments WHERE id = ?', [id]);
+    res.json({ message: 'Agendamento excluído com sucesso' });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao excluir agendamento', error: error.message });
+  }
+};
