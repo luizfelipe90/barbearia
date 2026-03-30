@@ -1511,3 +1511,199 @@
 [2026-03-26T19:57:37.221Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 999 (role: admin)
 [2026-03-26T19:57:41.039Z] [EXECUTE] UPDATE appointments SET status = ? WHERE id = ? | Params: ["cancelled","1774555029929"]
 [2026-03-26T19:57:41.042Z] [EXECUTE] Appointment 1774555029929 status updated to cancelled
+[2026-03-30T18:14:15.320Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:14:15.340Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:14:15.344Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:14:15.349Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:14:44.204Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["adm@adm"]
+[2026-03-30T18:14:44.206Z] [QUERY] Found 1 users
+[2026-03-30T18:14:44.793Z] [QUERY] SELECT * FROM appointments WHERE appointment_date = ? AND status != "cancelled" | Params: ["2026-03-30 10:30:00"]
+[2026-03-30T18:14:44.798Z] [QUERY] INSERT INTO appointments (user_id, service_id, appointment_date, barber_id, quiet_service) VALUES (?, ?, ?, ?, ?) | Params: [999,1,"2026-03-30 10:30:00",999,false]
+[2026-03-30T18:14:44.801Z] [EXECUTE] INSERT INTO appointments (user_id, service_id, appointment_date, barber_id, quiet_service) VALUES (?, ?, ?, ?, ?) | Params: [999,1,"2026-03-30 10:30:00",999,false]
+[2026-03-30T18:14:44.804Z] [EXECUTE] Appointment created: 1774894484804 for user 999 | Total: 1 | Quiet: false
+[2026-03-30T18:14:48.602Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [999,"admin","admin"]
+[2026-03-30T18:14:48.604Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 999 (role: admin)
+[2026-03-30T18:14:48.608Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [999,"admin","admin"]
+[2026-03-30T18:14:48.610Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 999 (role: admin)
+[2026-03-30T18:14:57.391Z] [EXECUTE] UPDATE appointments SET status = ? WHERE id = ? | Params: ["cancelled","1774894484804"]
+[2026-03-30T18:14:57.393Z] [EXECUTE] Appointment 1774894484804 status updated to cancelled
+[2026-03-30T18:15:00.249Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [999,"admin","admin"]
+[2026-03-30T18:15:00.251Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 999 (role: admin)
+[2026-03-30T18:15:00.256Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [999,"admin","admin"]
+[2026-03-30T18:15:00.258Z] [QUERY] Appointments total: 1 | Filtered: 1 for user 999 (role: admin)
+[2026-03-30T18:15:03.471Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:03.473Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:15:03.476Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:03.478Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:15:04.155Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:04.157Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:15:04.159Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:04.161Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:15:46.152Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:46.155Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:15:46.159Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:15:46.162Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:21:38.887Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:21:38.890Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:21:38.891Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:21:38.893Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:24:12.462Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:24:12.464Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:24:12.466Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:24:12.468Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:28:20.163Z] [QUERY] SELECT * FROM users WHERE email = ? | Params: ["teste@teste.com"]
+[2026-03-30T18:28:20.165Z] [QUERY] Found 0 users
+[2026-03-30T18:28:20.229Z] [EXECUTE] INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?) | Params: ["Teste","teste@teste.com","$2b$10$M1bcQpISoGPkmHvePhCun.SXu5tigOECUKMuzWr/26mf/7ACYsqgS","customer"]
+[2026-03-30T18:28:20.230Z] [EXECUTE] User registered: 1774895300230 | Role: customer | Total: 2
+[2026-03-30T18:28:20.279Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:28:20.281Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:28:20.283Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:28:20.286Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:28:23.853Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T18:28:23.855Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T18:28:23.859Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T18:28:23.860Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T18:31:17.966Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:31:17.968Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:31:17.970Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:31:17.972Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:33:12.724Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:33:12.726Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:33:12.728Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:33:12.730Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:35:56.684Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:35:56.687Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:35:56.689Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:35:56.691Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:36:28.515Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:36:28.517Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:36:28.519Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:36:28.522Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:37:17.832Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:37:17.835Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:37:17.836Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:37:17.838Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:43:27.298Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:43:27.300Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:43:27.302Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:43:27.303Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:51:19.787Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:51:19.790Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:51:19.791Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:51:19.792Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:52:29.184Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:52:29.187Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:52:29.191Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:52:29.192Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:54:33.555Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:54:33.556Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:54:33.558Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:54:33.559Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:54:43.932Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:54:43.935Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:54:43.937Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:54:43.938Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:55:02.264Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:55:02.266Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T18:55:02.267Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T18:55:02.269Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:00:36.498Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:00:36.501Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:00:36.503Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:00:36.505Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:00:36.959Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T19:00:36.961Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T19:00:36.964Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T19:00:36.965Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T19:00:38.092Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:00:38.095Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:00:38.096Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:00:38.098Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:35:56.526Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:35:56.530Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:35:56.532Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:35:56.534Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:35:59.791Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:35:59.793Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:35:59.795Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:35:59.797Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:36:00.210Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T19:36:00.211Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T19:36:00.215Z] [QUERY] 
+      SELECT a.*, s.name as service_name, u.name as user_name 
+      FROM appointments a
+      JOIN services s ON a.service_id = s.id
+      JOIN users u ON a.user_id = u.id
+      WHERE a.user_id = ? OR ? = 'admin' OR ? = 'barber'
+     | Params: [1774895300230,"customer","customer"]
+[2026-03-30T19:36:00.216Z] [QUERY] Appointments total: 1 | Filtered: 0 for user 1774895300230 (role: customer)
+[2026-03-30T19:36:00.842Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:36:00.844Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:36:00.847Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:36:00.850Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:39:36.921Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:39:36.924Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T19:39:36.927Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T19:39:36.929Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T20:02:29.938Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T20:02:29.942Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T20:02:29.944Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T20:02:29.947Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T20:02:56.354Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T20:02:56.356Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined
+[2026-03-30T20:02:56.357Z] [QUERY] SELECT * FROM services | Params: undefined
+[2026-03-30T20:02:56.359Z] [QUERY] SELECT id, name, image FROM users WHERE role = "barber" OR role = "admin" | Params: undefined

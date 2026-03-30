@@ -98,31 +98,31 @@ const Dashboard = () => {
     <div className="container fade-in page-section" style={{ paddingBottom: '40px' }}>
       <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
         <div>
-          <h2 style={{ fontSize: '2.5rem' }}>{isStaff ? 'Painel' : 'Meu'} <span style={{ color: 'var(--primary)' }}>{isStaff ? 'Profissional' : 'Perfil'}</span></h2>
+          <h2 className="section-title" style={{ fontSize: '2.5rem' }}>{isStaff ? 'Painel' : 'Meu'} <span style={{ color: 'var(--primary)' }}>{isStaff ? 'Profissional' : 'Perfil'}</span></h2>
           <p style={{ color: 'var(--text-muted)' }}>{isStaff ? `Bem-vindo de volta, ${user.name}.` : 'Gerencie seus agendamentos e histórico.'}</p>
         </div>
         {user.role === 'admin' && (
-          <button className="premium-btn" onClick={() => setShowBarberModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button className="premium-btn" onClick={() => setShowBarberModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: 'auto' }}>
             <UserPlus size={20} /> Cadastrar Barbeiro
           </button>
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: isStaff ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr', gap: '30px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isStaff ? 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))' : '1fr', gap: '30px' }}>
         {/* Appointments History */}
-        <div className="glass-card" style={{ maxWidth: isStaff ? 'none' : '600px', margin: isStaff ? '0' : '0 auto' }}>
+        <div className="glass-card" style={{ width: '100%', maxWidth: isStaff ? 'none' : '600px', margin: isStaff ? '0' : '0 auto' }}>
           <h3 style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Calendar size={20} color="var(--primary)" /> {isStaff ? 'Agenda Mustache' : 'Meus Agendamentos'}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             {appointments.length === 0 ? <p style={{ color: 'var(--text-muted)' }}>Nenhum agendamento encontrado.</p> : appointments.map(a => (
               <div key={a.id} style={{ padding: '15px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', borderLeft: `4px solid ${a.status === 'cancelled' ? '#666' : 'var(--primary)'}`, opacity: a.status === 'cancelled' ? 0.6 : 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                  <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', flexWrap: 'wrap', gap: '10px' }}>
+                  <div style={{ flex: '1 1 200px' }}>
                     <div style={{ fontWeight: 600, textDecoration: a.status === 'cancelled' ? 'line-through' : 'none' }}>{a.service_name}</div>
                     <div style={{ fontSize: '0.9rem', color: 'var(--text-main)', marginTop: '2px' }}>{isStaff ? `Cliente: ${a.user_name}` : 'Horário confirmado'}</div>
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'right' }}>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: window.innerWidth < 480 ? 'left' : 'right' }}>
                     {new Date(a.appointment_date).toLocaleDateString()}<br/>
                     {new Date(a.appointment_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
@@ -187,14 +187,15 @@ const Dashboard = () => {
             </h3>
             <div style={{ padding: '20px', background: 'var(--primary)', color: 'var(--secondary)', borderRadius: '8px', textAlign: 'center' }}>
               <p style={{ fontSize: '0.9rem', fontWeight: 600 }}>Faturamento Total (Est.)</p>
-              <h2 style={{ fontSize: '2.5rem', marginTop: '10px' }}>R$ { (appointments.length * 60 + orders.reduce((a, b) => a + parseFloat(b.total_price), 0)).toFixed(2) }</h2>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 8vw, 2.5rem)', marginTop: '10px' }}>R$ { (appointments.length * 60 + orders.reduce((a, b) => a + parseFloat(b.total_price), 0)).toFixed(2) }</h2>
             </div>
             <p style={{ marginTop: '20px', fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-              Basado em todos os atendimentos e vendas da loja.
+              Baseado em todos os atendimentos e vendas da loja.
             </p>
           </div>
         )}
       </div>
+
 
       {/* Cancellation Confirmation Modal */}
       {showCancelModal && (

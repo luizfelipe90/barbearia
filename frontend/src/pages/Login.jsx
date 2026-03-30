@@ -20,8 +20,8 @@ const Login = () => {
   };
 
   return (
-    <div className="container fade-in page-section" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="glass-card" style={{ width: '100%', maxWidth: '400px' }}>
+    <div className="container fade-in page-section" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+      <div className="glass-card" style={{ width: '100%', maxWidth: '450px' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>ENTRAR</h2>
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <input 

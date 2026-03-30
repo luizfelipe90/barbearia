@@ -118,7 +118,7 @@ const SubscriberBooking = () => {
   return (
     <div className="container fade-in page-section" style={{ paddingBottom: '60px' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h2 style={{ fontSize: '2.5rem', fontFamily: 'Playfair Display', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+        <h2 className="page-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
           <Star color="var(--primary)" size={32} />
           Área do <span style={{ color: 'var(--primary)' }}>Assinante</span>
           <Star color="var(--primary)" size={32} />
@@ -143,31 +143,28 @@ const SubscriberBooking = () => {
                   <div 
                     key={s.id} 
                     onClick={() => handleServiceSelect(s)}
+                    className={`service-card service-card-container ${selectedService?.id === s.id ? 'active' : ''}`}
                     style={{ 
-                      display: 'flex',
-                      gap: '15px',
-                      padding: '12px', 
-                      borderRadius: '10px', 
-                      cursor: 'pointer',
                       border: selectedService?.id === s.id ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.05)',
                       background: selectedService?.id === s.id ? 'rgba(196, 30, 58, 0.15)' : 'rgba(255,255,255,0.02)',
                       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       transform: selectedService?.id === s.id ? 'scale(1.02)' : 'none'
                     }}
                   >
-                    <div style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
+                    <div className="service-card-img-wrapper">
                       <img src={s.image || '/services/fade.png'} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="service-card-content">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
                          <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>{s.name}</span>
                         {/* We hide the price since subscribers already paid */}
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', border: '1px solid var(--text-muted)', padding: '2px 6px', borderRadius: '4px' }}>Incluso</span>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', border: '1px solid var(--text-muted)', padding: '2px 6px', borderRadius: '4px', whiteSpace: 'nowrap' }}>Incluso</span>
                       </div>
                       <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.4' }}>{s.description}</p>
                     </div>
                   </div>
                 ))}
+
               </div>
             </div>
           ))}
@@ -202,7 +199,7 @@ const SubscriberBooking = () => {
         </div>
 
         {/* Step 2: Date & Modular Grid Time */}
-        <div className="glass-card" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
+        <div className="glass-card sticky-panel" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
           <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
             <Clock size={24} /> 3. Data e Horário
           </h3>

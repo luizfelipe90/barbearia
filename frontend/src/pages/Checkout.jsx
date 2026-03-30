@@ -75,10 +75,11 @@ const Checkout = () => {
         </div>
 
         <div style={{ marginBottom: '30px' }}>
-          <label style={{ display: 'block', marginBottom: '15px', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px' }}>FORMA DE PAGAMENTO</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+          <div className="checkout-grid" style={{ marginBottom: '30px' }}>
+            <label style={{ display: 'block', marginBottom: '15px', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px', gridColumn: '1 / -1' }}>FORMA DE PAGAMENTO</label>
             <div 
               onClick={() => setPaymentMethod('pix')}
+              className="glass-card"
               style={{
                 padding: '20px',
                 borderRadius: '12px',
@@ -94,6 +95,7 @@ const Checkout = () => {
             </div>
             <div 
               onClick={() => setPaymentMethod('local')}
+              className="glass-card"
               style={{
                 padding: '20px',
                 borderRadius: '12px',

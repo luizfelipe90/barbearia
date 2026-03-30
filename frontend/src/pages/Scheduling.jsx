@@ -147,7 +147,7 @@ const Scheduling = () => {
 
   return (
     <div className="container fade-in page-section" style={{ paddingBottom: '60px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '40px', fontSize: '2.5rem', fontFamily: 'Playfair Display' }}>Agende sua Visita</h2>
+      <h2 className="page-title">Agende sua Visita</h2>
       
       <div className="booking-grid">
         {/* Step 1: Select Service */}
@@ -166,22 +166,18 @@ const Scheduling = () => {
                   <div 
                     key={s.id} 
                     onClick={() => handleServiceSelect(s)}
-                    className={`service-card ${selectedService?.id === s.id ? 'active' : ''}`}
+                    className={`service-card service-card-container ${selectedService?.id === s.id ? 'active' : ''}`}
                     style={{ 
-                      display: 'flex',
-                      gap: '15px',
-                      padding: '12px', 
-                      borderRadius: '10px', 
                       border: selectedService?.id === s.id ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.05)',
                       background: selectedService?.id === s.id ? 'rgba(196, 30, 58, 0.15)' : 'rgba(255,255,255,0.02)',
                     }}>
-                    <div style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
+                    <div className="service-card-img-wrapper">
                       <img src={s.image || '/services/fade.png'} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="service-card-content">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
                         <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>{s.name}</span>
-                        <span style={{ color: 'var(--primary)', fontWeight: 800 }}>R$ {s.price}</span>
+                        <span style={{ color: 'var(--primary)', fontWeight: 800, whiteSpace: 'nowrap' }}>R$ {s.price}</span>
                       </div>
                       <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.4' }}>{s.description}</p>
                     </div>
@@ -196,7 +192,7 @@ const Scheduling = () => {
             <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
               <User size={24} /> 2. Escolha o Barbeiro
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '15px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '15px' }}>
               {barbers.map(barber => (
                 <div 
                   key={barber.id}
@@ -220,7 +216,7 @@ const Scheduling = () => {
         </div>
 
         {/* Step 2: Date & Time */}
-        <div className="glass-card" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
+        <div className="glass-card sticky-panel" style={{ position: 'sticky', top: '100px', padding: '30px' }}>
           <h3 style={{ marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)' }}>
             <Clock size={24} /> 3. Data e Horário
           </h3>
@@ -352,6 +348,7 @@ const Scheduling = () => {
           </form>
         </div>
       </div>
+
 
       {/* Auth Modal */}
       {showAuthModal && (

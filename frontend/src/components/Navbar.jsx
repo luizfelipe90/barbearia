@@ -51,13 +51,13 @@ const Navbar = () => {
     <nav className={`nav-fixed ${scrolled ? 'nav-scrolled' : 'nav-transparent'}`} style={{ borderBottom: scrolled ? '2px solid var(--primary)' : 'none', padding: scrolled ? '10px 0' : '20px 0', transition: 'all 0.4s ease' }}>
       <div className="container nav-container">
         
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '15px', textDecoration: 'none' }}>
-          <TchescoLogo size={42} />
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+          <TchescoLogo className="nav-logo-icon" />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 0.9 }}>
-            <span style={{ color: 'var(--primary)', fontWeight: 900, fontSize: '1.4rem', letterSpacing: '2px', fontFamily: 'serif' }}>BARBERSHOP</span>
+            <span className="nav-brand-text">BARBERSHOP</span>
             <div style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '5px' }}>
               <div style={{ flex: 1, height: '1px', background: 'white', opacity: 0.5 }}></div>
-              <span style={{ color: 'white', fontWeight: 500, fontSize: '0.65rem', letterSpacing: '4px' }}>TCHESCO</span>
+              <span className="nav-brand-sub">TCHESCO</span>
               <div style={{ flex: 1, height: '1px', background: 'white', opacity: 0.5 }}></div>
             </div>
           </div>

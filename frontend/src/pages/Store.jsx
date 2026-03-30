@@ -65,7 +65,7 @@ const Store = () => {
       </div>
 
       {showCart && (
-        <div style={{ position: 'fixed', top: 0, right: 0, width: '400px', height: '100vh', background: 'var(--bg-card)', zIndex: 1000, padding: '30px', boxShadow: '-10px 0 30px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ position: 'fixed', top: 0, right: 0, width: 'min(400px, 100%)', height: '100vh', background: 'var(--bg-card)', zIndex: 1000, padding: '30px', boxShadow: '-10px 0 30px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
             <h3>Meu Carrinho</h3>
             <X size={24} style={{ cursor: 'pointer' }} onClick={() => setShowCart(false)} />

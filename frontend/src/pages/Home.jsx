@@ -12,7 +12,6 @@ const Home = () => {
         flexDirection: 'column', 
         justifyContent: 'center', 
         alignItems: 'center', 
-        textAlign: 'center',
         background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/services/imagem.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center 20%',
@@ -21,29 +20,20 @@ const Home = () => {
         padding: '20px'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <p style={{ color: 'var(--primary)', letterSpacing: '6px', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 800, fontSize: '0.9rem' }}>SINCE 2024</p>
-          <h1 className="hero-title" style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            background: 'none', 
-            WebkitTextFillColor: 'initial', 
-            color: 'var(--primary)', 
-            textTransform: 'uppercase',
-            marginBottom: '30px'
-          }}>
-            <span style={{ fontSize: '1.1em', fontWeight: 900, letterSpacing: '12px', textShadow: '2px 2px 10px rgba(0,0,0,1)' }}>BARBERSHOP</span>
-            <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '600px', gap: '20px', marginTop: '-5px' }}>
+          <p style={{ color: 'var(--primary)', letterSpacing: '6px', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 800, fontSize: '0.9rem', textAlign: 'center' }}>SINCE 2024</p>
+          <h1 className="hero-title" style={{ background: 'none', WebkitTextFillColor: 'initial', color: 'var(--primary)', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '1.1em', fontWeight: 900, textShadow: '2px 2px 10px rgba(0,0,0,1)' }}>BARBERSHOP</span>
+            <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '600px', gap: '20px', margin: '0 auto', marginTop: '-5px' }}>
               <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
-              <span style={{ color: 'white', fontWeight: 400, fontSize: '0.35em', letterSpacing: '20px' }}>TCHESCO</span>
+              <span style={{ color: 'white', fontWeight: 400, fontSize: '0.35em', letterSpacing: 'min(20px, 4vw)' }}>TCHESCO</span>
               <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
             </div>
           </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', maxWidth: '700px', margin: '0 auto 40px', fontWeight: 500, letterSpacing: '1px', opacity: 0.9, textShadow: '1px 1px 5px rgba(0,0,0,1)' }}>
+          <p className="hero-subtitle">
             A excelência em barbearia clássica. Estilo, precisão e o visual que você merece.
           </p>
           <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-            <Link to="/scheduling" className="premium-btn" style={{ marginTop: '40px', padding: '18px 45px' }}>
+            <Link to="/scheduling" className="premium-btn" style={{ padding: '18px 45px' }}>
             RESERVAR AGORA
           </Link>
           </div>
@@ -52,7 +42,7 @@ const Home = () => {
 
       {/* Services Section */}
       <section className="container" style={{ padding: '120px 0' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '60px' }}>Nossa <span style={{ color: 'var(--primary)' }}>Assinatura</span></h2>
+        <h2 className="section-title" style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '60px' }}>Nossa <span style={{ color: 'var(--primary)' }}>Assinatura</span></h2>
         <div className="home-services-grid">
           {[
             { plan: 'basic', name: 'Assinatura Corte', price: 'R$ 60', desc: 'Corte 4 vezes ao mês.' },
@@ -72,13 +62,14 @@ const Home = () => {
 
       {/* Why Us Section */}
       <section style={{ padding: '80px 0', background: 'var(--glass)', borderRadius: '20px', marginBottom: '100px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: '40px', padding: '0 40px' }}>
+        <div className="flex-responsive" style={{ justifyContent: 'space-around', padding: '0 40px' }}>
           <div style={{ textAlign: 'center' }}><Award size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>ELITE</h4></div>
           <div style={{ textAlign: 'center' }}><ShieldCheck size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>CONFIANÇA</h4></div>
           <div style={{ textAlign: 'center' }}><Clock size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>PONTUAL</h4></div>
           <div style={{ textAlign: 'center' }}><Star size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>PREMIUM</h4></div>
         </div>
       </section>
+
     </main>
   );
 };

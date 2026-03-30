@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const TchescoLogo = ({ size = 24, color = 'var(--primary)' }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const TchescoLogo = ({ size = 24, color = 'var(--primary)', className }) => (
+  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 2C7.58 2 4 5.58 4 10C4 10 4 11 5 11C6 11 6 10 8 10C8 7.79 9.79 6 12 6C14.21 6 16 7.79 16 10C18 10 18 11 19 11C20 11 20 10 20 10C20 5.58 16.42 2 12 2Z" fill={color}/>
     <rect x="5" y="9" width="6" height="3" rx="1" fill="black" stroke={color} strokeWidth="1"/>
     <rect x="13" y="9" width="6" height="3" rx="1" fill="black" stroke={color} strokeWidth="1"/>
@@ -94,6 +94,7 @@ export const DollarSign = ({ size = 24, color = 'currentColor' }) => (
     <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
   </svg>
 );
+
 export const LogOut = ({ size = 24, color = 'currentColor' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -111,6 +112,7 @@ export const CreditCard = ({ size = 24, color = 'currentColor' }) => (
     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
   </svg>
 );
+
 export const UserPlus = ({ size = 24, color = 'currentColor' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/>
