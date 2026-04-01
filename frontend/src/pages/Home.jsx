@@ -6,27 +6,15 @@ const Home = () => {
   return (
     <main className="reveal">
       {/* Hero Section */}
-      <section style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/services/imagem.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 20%',
-        position: 'relative',
-        borderBottom: '4px solid var(--primary)',
-        padding: '20px'
-      }}>
+      <section className="hero-section">
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <p style={{ color: 'var(--primary)', letterSpacing: '6px', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 800, fontSize: '0.9rem', textAlign: 'center' }}>SINCE 2024</p>
-          <h1 className="hero-title" style={{ background: 'none', WebkitTextFillColor: 'initial', color: 'var(--primary)', textTransform: 'uppercase' }}>
-            <span style={{ fontSize: '1.1em', fontWeight: 900, textShadow: '2px 2px 10px rgba(0,0,0,1)' }}>BARBERSHOP</span>
-            <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '600px', gap: '20px', margin: '0 auto', marginTop: '-5px' }}>
-              <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
-              <span style={{ color: 'white', fontWeight: 400, fontSize: '0.35em', letterSpacing: 'min(20px, 4vw)' }}>TCHESCO</span>
-              <div style={{ flex: 1, height: '2px', background: 'white' }}></div>
+          <h1 className="hero-title solid">
+            <span style={{ fontWeight: 900, textShadow: '2px 2px 10px rgba(0,0,0,1)' }}>BARBERSHOP</span>
+            <div className="hero-tchesco-wrapper">
+              <div className="hero-tchesco-line"></div>
+              <span className="hero-tchesco-text">TCHESCO</span>
+              <div className="hero-tchesco-line"></div>
             </div>
           </h1>
           <p className="hero-subtitle">
@@ -41,7 +29,7 @@ const Home = () => {
       </section>
 
       {/* Services Section */}
-      <section className="container" style={{ padding: '120px 0' }}>
+      <section className="container services-section">
         <h2 className="section-title" style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '60px' }}>Nossa <span style={{ color: 'var(--primary)' }}>Assinatura</span></h2>
         <div className="home-services-grid">
           {[
@@ -61,8 +49,8 @@ const Home = () => {
       </section>
 
       {/* Why Us Section */}
-      <section style={{ padding: '80px 0', background: 'var(--glass)', borderRadius: '20px', marginBottom: '100px' }}>
-        <div className="flex-responsive" style={{ justifyContent: 'space-around', padding: '0 40px' }}>
+      <section className="features-section">
+        <div className="features-grid">
           <div style={{ textAlign: 'center' }}><Award size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>ELITE</h4></div>
           <div style={{ textAlign: 'center' }}><ShieldCheck size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>CONFIANÇA</h4></div>
           <div style={{ textAlign: 'center' }}><Clock size={40} color="var(--primary)" /><h4 style={{ marginTop: '10px' }}>PONTUAL</h4></div>

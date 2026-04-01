@@ -22,6 +22,7 @@ const Scheduling = () => {
   const [authPassword, setAuthPassword] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
   const [quietService, setQuietService] = useState(false);
+  const [showAllTimes, setShowAllTimes] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -259,28 +260,68 @@ const Scheduling = () => {
 
             <div>
               <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px' }}>HORÁRIOS DISPONÍVEIS</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(75px, 1fr))', gap: '10px', maxHeight: '350px', overflowY: 'auto', paddingRight: '5px' }}>
-                {availableTimes.map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    className={`slot-item ${time === t ? 'active' : ''}`}
-                    onClick={() => setTime(t)}
-                    style={{
-                      padding: '10px 0',
-                      borderRadius: '6px',
-                      border: time === t ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
-                      background: time === t ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
-                      color: time === t ? 'white' : 'var(--text-main)',
-                      fontWeight: time === t ? 800 : 500,
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    {t}
-                  </button>
-                ))}
+              <div style={{ paddingBottom: '5px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  flexWrap: showAllTimes ? 'wrap' : 'nowrap',
+                  gap: '10px', 
+                  maxHeight: showAllTimes ? '1000px' : '65px', 
+                  overflowX: showAllTimes ? 'hidden' : 'auto',
+                  overflowY: 'hidden', 
+                  paddingBottom: showAllTimes ? '5px' : '15px',
+                  scrollbarWidth: 'thin',
+                  transition: 'max-height 0.4s ease-in-out' 
+                }}>
+                  {availableTimes.map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      className={`slot-item ${time === t ? 'active' : ''}`}
+                      onClick={() => setTime(t)}
+                      style={{
+                        flex: '0 0 auto',
+                        width: '85px',
+                        padding: '12px 0',
+                        borderRadius: '8px',
+                        border: time === t ? '2px solid var(--primary)' : '1px solid rgba(255,255,255,0.1)',
+                        background: time === t ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
+                        color: time === t ? 'white' : 'var(--text-main)',
+                        fontWeight: time === t ? 800 : 500,
+                        fontSize: '0.95rem',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+                
+                <div 
+                  onClick={() => setShowAllTimes(!showAllTimes)}
+                  style={{
+                     marginTop: '12px',
+                     textAlign: 'center',
+                     cursor: 'pointer',
+                     padding: '10px',
+                     background: 'rgba(255,255,255,0.02)',
+                     borderRadius: '8px',
+                     display: 'flex',
+                     flexDirection: 'column',
+                     alignItems: 'center',
+                     gap: '6px',
+                     border: '1px solid rgba(255,255,255,0.05)',
+                     transition: 'all 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                >
+                  <div style={{ width: '40px', height: '4px', background: 'rgba(255,255,255,0.2)', borderRadius: '2px' }}></div>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
+                    {showAllTimes ? 'Ocultar horários' : 'Ver todas opções'}
+                  </span>
+                </div>
               </div>
-              {!time && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>Selecione um horário na grade acima.</p>}
+              {!time && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>Selecione um horário na lista acima.</p>}
             </div>
             
             <div style={{ marginTop: '10px', padding: '20px', background: 'rgba(196, 30, 58, 0.05)', borderRadius: '12px', borderLeft: '4px solid var(--primary)' }}>
