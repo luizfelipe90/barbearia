@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api.js';
 import { Calendar as CalendarIcon, Clock, CheckCircle, User, X, LogIn, UserPlus } from '../components/Icons';
 
 const Scheduling = () => {
@@ -28,8 +28,8 @@ const Scheduling = () => {
     const fetchData = async () => {
       try {
         const [serviceRes, barberRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/services'),
-          axios.get('http://localhost:5000/api/auth/barbers')
+          api.get('/api/services'),
+          api.get('/api/auth/barbers')
         ]);
         setServices(serviceRes.data);
         setBarbers(barberRes.data);
@@ -80,7 +80,7 @@ const Scheduling = () => {
     setLoading(true);
     try {
       const appointment_date = `${date} ${time}:00`;
-      await axios.post('http://localhost:5000/api/appointments', 
+      await api.post('/api/appointments', 
         { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id, quiet_service: quietService },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -98,7 +98,7 @@ const Scheduling = () => {
     setAuthLoading(true);
     try {
       if (authMode === 'login') {
-        const res = await axios.post('http://localhost:5000/api/auth/login', { email: authEmail, password: authPassword });
+        const res = await api.post('/api/auth/login', { email: authEmail, password: authPassword });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         setShowAuthModal(false);
@@ -108,7 +108,7 @@ const Scheduling = () => {
           handleBooking(fakeEvent);
         }, 500);
       } else {
-        const res = await axios.post('http://localhost:5000/api/auth/register', { name: authName, email: authEmail, password: authPassword });
+        const res = await api.post('/api/auth/register', { name: authName, email: authEmail, password: authPassword });
         // Auto Login after register
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));

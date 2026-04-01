@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api.js';
 import { CreditCard, CheckCircle } from '../components/Icons';
 
 const Checkout = () => {
@@ -29,7 +29,7 @@ const Checkout = () => {
     setLoading(true);
     try {
       // For demo purposes, we activate it regardless of method
-      const res = await axios.post('http://localhost:5000/api/auth/subscribe', 
+      const res = await api.post('/api/auth/subscribe', 
         { plan, paymentMethod },
         { headers: { Authorization: `Bearer ${token}` } }
       );

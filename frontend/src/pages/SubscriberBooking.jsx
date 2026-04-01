@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api.js';
 import { Calendar as CalendarIcon, Clock, CheckCircle, Star, User } from '../components/Icons';
 
 const SubscriberBooking = () => {
@@ -28,8 +28,8 @@ const SubscriberBooking = () => {
     const fetchData = async () => {
       try {
         const [serviceRes, barberRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/services'),
-          axios.get('http://localhost:5000/api/auth/barbers')
+          api.get('/api/services'),
+          api.get('/api/auth/barbers')
         ]);
         setServices(serviceRes.data);
         setBarbers(barberRes.data);
@@ -84,7 +84,7 @@ const SubscriberBooking = () => {
     setLoading(true);
     try {
       const appointment_date = `${date} ${time}:00`;
-      await axios.post('http://localhost:5000/api/appointments', 
+      await api.post('/api/appointments', 
         { service_id: selectedService.id, appointment_date, barber_id: selectedBarber.id, quiet_service: quietService },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api.js';
 import { Package, Calendar, DollarSign, UserPlus, X } from '../components/Icons';
 
 const Dashboard = () => {
@@ -18,7 +18,7 @@ const Dashboard = () => {
       if (!token) return;
       setLoading(true);
       try {
-        const appRes = await axios.get('http://localhost:5000/api/appointments', { headers: { Authorization: `Bearer ${token}` } });
+        const appRes = await api.get('/api/appointments', { headers: { Authorization: `Bearer ${token}` } });
         setAppointments(appRes.data);
       } catch (err) {
         console.error('Erro ao buscar agendamentos');
@@ -26,7 +26,7 @@ const Dashboard = () => {
 
       if (user.role === 'admin') {
         try {
-          const orderRes = await axios.get('http://localhost:5000/api/products/orders', { headers: { Authorization: `Bearer ${token}` } });
+          const orderRes = await api.get('/api/products/orders', { headers: { Authorization: `Bearer ${token}` } });
           setOrders(orderRes.data);
         } catch (err) {
           console.error('Erro ao buscar pedidos');
@@ -47,7 +47,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
     setLoading(true);
     try {
-      await axios.put(`http://localhost:5000/api/appointments/${id}/cancel`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      await api.put(`/api/appointments/${id}/cancel`, {}, { headers: { Authorization: `Bearer ${token}` } });
       setAppointments(appointments.map(a => a.id === id ? { ...a, status: 'cancelled' } : a));
       setShowCancelModal(false);
     } catch (err) {
@@ -61,7 +61,7 @@ const Dashboard = () => {
     if (!window.confirm('Deseja excluir permanentemente este registro?')) return;
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:5000/api/appointments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await api.delete(`/api/appointments/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       setAppointments(appointments.filter(a => a.id !== id));
     } catch (err) {
       alert(err.response?.data?.message || 'Erro ao excluir');
@@ -72,7 +72,7 @@ const Dashboard = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { ...barberData, role: 'barber' });
+      await api.post('/api/auth/register', { ...barberData, role: 'barber' });
       alert('Barbeiro cadastrado com sucesso!');
       setShowBarberModal(false);
       setBarberData({ name: '', email: '', password: '' });
