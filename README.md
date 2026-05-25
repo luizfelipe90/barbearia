@@ -1,4 +1,4 @@
-# Tchesco Barbershop 💈
+# Tchesco Barbershop
 
 Uma aplicação web completa para gestão de barbearias, permitindo o agendamento de serviços, venda de produtos e gerenciamento de usuários.
 
