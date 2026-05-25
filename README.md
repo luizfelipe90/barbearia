@@ -2,7 +2,7 @@
 
 Uma aplicação web completa para gestão de barbearias, permitindo o agendamento de serviços, venda de produtos e gerenciamento de usuários.
 
-## 📋 Funcionalidades
+## Funcionalidades
 
 - **Autenticação de Usuários:** Cadastro e login com segurança (JWT e bcrypt).
 - **Agendamento de Serviços:** Marcação de horários para cortes de cabelo, barba e outros serviços.
@@ -10,7 +10,7 @@ Uma aplicação web completa para gestão de barbearias, permitindo o agendament
 - **Painel de Controle (Dashboard):** Visão geral dos agendamentos e informações do usuário.
 - **Design Responsivo e Moderno:** Interface de usuário construída com React.
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Frontend
 - [React.js](https://reactjs.org/)
@@ -25,7 +25,7 @@ Uma aplicação web completa para gestão de barbearias, permitindo o agendament
 - [Bcrypt.js](https://www.npmjs.com/package/bcryptjs)
 - Banco de Dados suportado (MySQL / SQLite em memória)
 
-## 🚀 Como Executar o Projeto Localmente
+## Como Executar o Projeto Localmente
 
 ### Pré-requisitos
 Certifique-se de ter o [Node.js](https://nodejs.org/) e o npm instalados em sua máquina.
@@ -59,15 +59,15 @@ npm run dev
 ```
 A aplicação frontend ficará disponível no seu navegador (geralmente em `http://localhost:5173`).
 
-## 🧪 Testes
+## Testes
 O projeto possui testes automatizados configurados para o frontend garantindo a qualidade das páginas e fluxos. Para executá-los:
 ```bash
 cd frontend
 npm run test
 ```
 
-## 📝 Licença
+## Licença
 Este projeto está sob a licença ISC.
 
-## professor 
-hudson neves 
+## Professor 
+Hudson Neves 
